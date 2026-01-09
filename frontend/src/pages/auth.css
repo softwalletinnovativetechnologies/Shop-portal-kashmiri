@@ -1,0 +1,194 @@
+/* Wrapper with background */
+.auth-wrapper {
+  min-height: 100vh;
+  background-image: url("/images/bg.png");
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Card */
+.auth-card {
+  width: 400px;
+  background: linear-gradient(
+    180deg,
+    #af8453 0%,   /* light pashmina */
+    #f1e6da 100%  /* warm almond */
+  );
+  padding: 36px;
+  border-radius: 24px;
+  box-shadow: 0 35px 70px rgba(0, 0, 0, 0.28);
+}
+
+
+
+/* Tabs */
+.auth-tabs {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 25px;
+}
+
+.auth-tabs span {
+  color: #7a5a3a; /* soft brown */
+}
+
+.auth-tabs .active {
+  border-bottom: 3px solid #b08a5a;
+}
+/* Inputs */
+.auth-card input {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  border: 1px solid #cdb7a3;
+  background: #baa691; /* soft cream */
+  font-size: 15px;
+  color: #4a2f1b;
+}
+
+
+.auth-card input:focus {
+  outline: none;
+  border-color: #c49a6c;
+  box-shadow: 0 0 0 2px rgba(196, 154, 108, 0.2);
+}
+
+
+/* Button */
+.primary-btn {
+  width: 100%;
+  padding: 15px;
+  background: linear-gradient(
+    135deg,
+    #c19a6b, 
+    #a57c52   
+  );
+  color: #fff;
+  border: none;
+  border-radius: 18px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+
+.primary-btn:hover {
+  background: linear-gradient(135deg, #b5895e, #8f5f3e);
+  transform: translateY(-1px);
+}
+
+
+/* SLIDE ANIMATIONS */
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.slide-left {
+  animation: slideLeft 0.6s ease;
+}
+
+.slide-right {
+  animation: slideRight 0.6s ease;
+}
+
+@keyframes slideLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes slideRight {
+  from {
+    opacity: 0;
+    transform: translateX(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+.google-btn {
+  width: 100%;
+  padding: 16px;
+  margin-top: 18px;
+  border-radius: 18px;
+  border: none !important;
+  background: linear-gradient(
+    135deg,
+    #c19a6b,
+    #a57c52
+  ) !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  color: #ffffff !important;
+  cursor: pointer;
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.18);
+  transition: all 0.3s ease;
+}
+
+.google-btn:hover {
+  background: linear-gradient(
+    135deg,
+    #b5895e,
+    #8f5f3e
+  ) !important;
+  transform: translateY(-2px);
+}
+
+
+
+
+.google-icon {
+  width: 20px;
+  height: 20px;
+}
+.auth-card h2 {
+  color: #3e2a1c;
+  margin-bottom: 20px;
+}
+/* OTP Row */
+.otp-row {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.otp-input {
+  flex: 1;
+}
+
+/* Send OTP button */
+.otp-btn {
+  padding: 14px 18px;
+  border-radius: 12px;
+  border: none;
+  background: linear-gradient(135deg, #d1a77b, #b58a5a);
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.otp-btn:hover {
+  background: linear-gradient(135deg, #b58a5a, #9c6f45);
+  transform: translateY(-1px);
+}

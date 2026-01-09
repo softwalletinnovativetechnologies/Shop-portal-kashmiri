@@ -40,3 +40,22 @@
 .read-the-docs {
   color: #888;
 }
+.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+
+  background: linear-gradient(
+    to right,
+    rgba(255, 244, 230, 0.75),
+    rgba(255, 244, 230, 0.35),
+    rgba(255, 244, 230, 0.05)
+  );
+
+  z-index: 0;
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+}

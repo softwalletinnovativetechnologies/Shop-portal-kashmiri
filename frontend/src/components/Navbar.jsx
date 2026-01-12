@@ -1,21 +1,50 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import "./Navbar.css";
 
 export default function Navbar() {
-  return (
-    <nav className="navbar">
-      <div className="logo">Kashmiri Gifts</div>
+  const [scrolled, setScrolled] = useState(false);
 
-      <ul className="nav-links">
-        <li>Home</li>
-        <li>Shop</li>
-        <li>About Us</li>
-        <li>Contact</li>
+  useEffect(() => {
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  return (
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+      {/* LEFT */}
+      <div className="nav-left">
+        <Link to="/" className="logo">
+          Kashmiri Gifts
+        </Link>
+      </div>
+
+      {/* CENTER */}
+      <ul className="nav-center">
+        <li>
+          <Link to="/">Home</Link>
+        </li>
+        <li>
+          <Link to="/shop">Shop</Link>
+        </li>
+        <li>
+          <Link to="/about">About</Link>
+        </li>
+        <li>
+          <Link to="/contact">Contact</Link>
+        </li>
       </ul>
 
-      <div className="nav-actions">
-        <span>Login</span>
-        <span>🛒</span>
-        <span>✉</span>
+      {/* RIGHT */}
+      <div className="nav-right">
+        <Link to="/login" className="nav-btn">
+          Login
+        </Link>
+        <span className="icon">🛒</span>
       </div>
     </nav>
   );

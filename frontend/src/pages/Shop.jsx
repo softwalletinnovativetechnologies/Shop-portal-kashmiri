@@ -1,118 +1,169 @@
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import products from "../data/products";
 import "./Shop.css";
-
-const PRODUCTS = [
-  {
-    id: 1,
-    name: "Ornate Jewelry Box",
-    price: 99.99,
-    category: "Handicrafts",
-    image: "/images/handicrafts.png",
-  },
-  {
-    id: 2,
-    name: "Luxury Gift Hamper",
-    price: 149.99,
-    category: "Gift Hampers",
-    image: "/images/gifthamper.png",
-  },
-  {
-    id: 3,
-    name: "Pink Pashmina Shawl",
-    price: 129.99,
-    category: "Pashmina Shawls",
-    image: "/images/pashmina.png",
-  },
-  {
-    id: 4,
-    name: "Assorted Dry Fruits",
-    price: 39.99,
-    category: "Dry Fruits",
-    image: "/images/dryfruits.png",
-  },
-  {
-    id: 5,
-    name: "Handcrafted Brass Tray",
-    price: 124.99,
-    category: "Handicrafts",
-    image: "/images/handicrafts.png",
-  },
-  {
-    id: 6,
-    name: "Walnut Wood Carving",
-    price: 79.99,
-    category: "Handicrafts",
-    image: "/images/handicrafts.png",
-  },
-];
 
 export default function Shop() {
   const [category, setCategory] = useState("All");
-  const [sort, setSort] = useState("popularity");
+  const [minPrice, setMinPrice] = useState(0);
+  const [maxPrice, setMaxPrice] = useState(100000);
+  const [sortOrder, setSortOrder] = useState("");
+  const [currentPage, setCurrentPage] = useState(1);
 
-  let filtered = PRODUCTS.filter((p) =>
-    category === "All" ? true : p.category === category
-  );
+  const PRODUCTS_PER_PAGE = 6;
 
-  if (sort === "low") filtered.sort((a, b) => a.price - b.price);
-  if (sort === "high") filtered.sort((a, b) => b.price - a.price);
+  const categories = [
+    "All",
+    "Gift Hampers",
+    "Pashmina Shawls",
+    "Dry Fruits",
+    "Handicrafts",
+  ];
+
+  /* ================= FILTER + SORT ================= */
+  const filteredProducts = products
+    .filter((p) => {
+      const categoryMatch = category === "All" || p.category === category;
+      const priceMatch = p.price >= minPrice && p.price <= maxPrice;
+      return categoryMatch && priceMatch;
+    })
+    .sort((a, b) => {
+      if (sortOrder === "low") return a.price - b.price;
+      if (sortOrder === "high") return b.price - a.price;
+      return 0;
+    });
+
+  /* ================= PAGINATION ================= */
+  const totalPages = Math.ceil(filteredProducts.length / PRODUCTS_PER_PAGE);
+
+  const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
+  const endIndex = startIndex + PRODUCTS_PER_PAGE;
+
+  const paginatedProducts = filteredProducts.slice(startIndex, endIndex);
+
+  const changePage = (page) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
 
   return (
-    <div className="shop-page">
-      {/* HERO */}
-      <section className="shop-hero">
-        <div className="shop-hero-content">
-          <h1>Shop Our Products</h1>
-          <p>Authentic Gifts from the Heart of Kashmir</p>
-          <button className="btn-primary">Shop Now</button>
-        </div>
-      </section>
+    <div className="shop-layout">
+      {/* ================= SIDEBAR ================= */}
+      <aside className="shop-sidebar">
+        <h3>Filters</h3>
 
-      {/* MAIN */}
-      <section className="shop-main">
-        {/* SIDEBAR */}
-        <aside className="shop-sidebar">
-          <h3>Categories</h3>
-          {[
-            "All",
-            "Gift Hampers",
-            "Pashmina Shawls",
-            "Dry Fruits",
-            "Handicrafts",
-          ].map((cat) => (
+        <div className="filter-box">
+          <h4>Category</h4>
+          {categories.map((cat) => (
             <button
               key={cat}
               className={category === cat ? "active" : ""}
-              onClick={() => setCategory(cat)}
+              onClick={() => {
+                setCategory(cat);
+                setCurrentPage(1);
+              }}
             >
               {cat}
             </button>
           ))}
-        </aside>
-
-        {/* PRODUCTS */}
-        <div className="shop-products">
-          <div className="shop-sort">
-            <span>Sort by</span>
-            <select onChange={(e) => setSort(e.target.value)}>
-              <option value="popularity">Popularity</option>
-              <option value="low">Price: Low to High</option>
-              <option value="high">Price: High to Low</option>
-            </select>
-          </div>
-
-          <div className="product-grid">
-            {filtered.map((p) => (
-              <div className="product-card" key={p.id}>
-                <img src={p.image} alt={p.name} />
-                <h4>{p.name}</h4>
-                <p>${p.price}</p>
-                <button className="btn-primary small">Add to Cart</button>
-              </div>
-            ))}
-          </div>
         </div>
-      </section>
+
+        <div className="filter-box">
+          <h4>Price Range</h4>
+
+          <label>Min: ₹{minPrice}</label>
+          <input
+            type="range"
+            min="500"
+            max="6000"
+            step="100"
+            value={minPrice}
+            onChange={(e) => {
+              setMinPrice(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+          />
+
+          <label>Max: ₹{maxPrice}</label>
+          <input
+            type="range"
+            min="0"
+            max="10000"
+            step="100"
+            value={maxPrice}
+            onChange={(e) => {
+              setMaxPrice(Number(e.target.value));
+              setCurrentPage(1);
+            }}
+          />
+        </div>
+
+        <div className="filter-box">
+          <h4>Sort by Price</h4>
+          <select
+            onChange={(e) => {
+              setSortOrder(e.target.value);
+              setCurrentPage(1);
+            }}
+          >
+            <option value="">Default</option>
+            <option value="low">Low → High</option>
+            <option value="high">High → Low</option>
+          </select>
+        </div>
+      </aside>
+
+      {/* ================= PRODUCTS ================= */}
+      <main className="shop-content">
+        <h1>Shop Products</h1>
+
+        <div className="shop-grid">
+          {paginatedProducts.length > 0 ? (
+            paginatedProducts.map((product) => (
+              <Link
+                key={product.id}
+                to={`/product/${product.id}`}
+                className="shop-card"
+              >
+                <img src={product.image} alt={product.name} />
+                <h3>{product.name}</h3>
+                <p className="price">₹{product.price}</p>
+              </Link>
+            ))
+          ) : (
+            <p className="no-products">No products found.</p>
+          )}
+        </div>
+
+        {/* ================= PAGINATION UI ================= */}
+        {totalPages > 1 && (
+          <div className="pagination">
+            <button
+              disabled={currentPage === 1}
+              onClick={() => changePage(currentPage - 1)}
+            >
+              ‹ Prev
+            </button>
+
+            {[...Array(totalPages)].map((_, i) => (
+              <button
+                key={i}
+                className={currentPage === i + 1 ? "active" : ""}
+                onClick={() => changePage(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+
+            <button
+              disabled={currentPage === totalPages}
+              onClick={() => changePage(currentPage + 1)}
+            >
+              Next ›
+            </button>
+          </div>
+        )}
+      </main>
     </div>
   );
 }

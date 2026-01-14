@@ -1,50 +1,70 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { getWishlistCount } from "../utils/wishlist";
+import { getCartCount } from "../utils/cart";
 import "./Navbar.css";
 
 export default function Navbar() {
-  const [scrolled, setScrolled] = useState(false);
+  const [wishlistCount, setWishlistCount] = useState(0);
+  const [cartCount, setCartCount] = useState(0);
 
   useEffect(() => {
-    const onScroll = () => {
-      setScrolled(window.scrollY > 40);
+    const updateCounts = () => {
+      setWishlistCount(getWishlistCount());
+      setCartCount(getCartCount());
     };
 
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
+    updateCounts();
+
+    window.addEventListener("wishlistUpdated", updateCounts);
+    window.addEventListener("cartUpdated", updateCounts);
+
+    return () => {
+      window.removeEventListener("wishlistUpdated", updateCounts);
+      window.removeEventListener("cartUpdated", updateCounts);
+    };
   }, []);
 
   return (
-    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
+    <nav className="navbar">
       {/* LEFT */}
       <div className="nav-left">
-        <Link to="/" className="logo">
+        <NavLink to="/" className="logo">
           Kashmiri Gifts
-        </Link>
+        </NavLink>
       </div>
 
       {/* CENTER */}
-      <ul className="nav-center">
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        <li>
-          <Link to="/shop">Shop</Link>
-        </li>
-        <li>
-          <Link to="/about">About</Link>
-        </li>
-        <li>
-          <Link to="/contact">Contact</Link>
-        </li>
-      </ul>
+      <div className="nav-center">
+        <NavLink to="/" className="nav-link">
+          Home
+        </NavLink>
+        <NavLink to="/shop" className="nav-link">
+          Shop
+        </NavLink>
+        <NavLink to="/about" className="nav-link">
+          About
+        </NavLink>
+        <NavLink to="/contact" className="nav-link">
+          Contact
+        </NavLink>
+      </div>
 
       {/* RIGHT */}
       <div className="nav-right">
-        <Link to="/login" className="nav-btn">
+        <NavLink to="/wishlist" className="nav-icon">
+          <i className="fa-regular fa-heart"></i>
+          {wishlistCount > 0 && <span className="badge">{wishlistCount}</span>}
+        </NavLink>
+
+        <NavLink to="/cart" className="nav-icon">
+          <i className="fa-solid fa-cart-shopping"></i>
+          {cartCount > 0 && <span className="badge">{cartCount}</span>}
+        </NavLink>
+
+        <NavLink to="/login" className="login-btn">
           Login
-        </Link>
-        <span className="icon">🛒</span>
+        </NavLink>
       </div>
     </nav>
   );

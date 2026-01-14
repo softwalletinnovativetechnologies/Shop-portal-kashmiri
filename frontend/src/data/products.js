@@ -7,7 +7,7 @@ const products = [
     category: "Gift Hampers",
     image: "/images/royalkashmiri.png",
     description:
-      "A premium gift hamper featuring authentic Kashmiri crafts and delicacies.",
+      "An elegant Kashmiri gift hamper featuring premium dry fruits, traditional sweets, and artisanal packaging, perfect for festive and special occasions.",
   },
   {
     id: "2",
@@ -15,7 +15,8 @@ const products = [
     price: 4999,
     category: "Gift Hampers",
     image: "/images/premiumwedding.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "Celebrate special occasions with our Premium Wedding Gift Hamper, thoughtfully curated with handpicked dry fruits, gourmet sweets, and traditional Kashmiri elements. This is an ideal choice for weddings, engagements, and festive gifting.",
   },
   {
     id: "3",
@@ -23,7 +24,8 @@ const products = [
     price: 2299,
     category: "Gift Hampers",
     image: "/images/dryfruittreasure.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "A premium assortment of handpicked Kashmiri dry fruits packed in an elegant box, perfect for healthy gifting.",
   },
   {
     id: "4",
@@ -31,7 +33,8 @@ const products = [
     price: 3599,
     category: "Gift Hampers",
     image: "/images/kashmirihoney.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "A wholesome gift box featuring pure Kashmiri honey paired with premium quality walnuts in luxury packaging.",
   },
   {
     id: "5",
@@ -39,7 +42,8 @@ const products = [
     price: 2799,
     category: "Gift Hampers",
     image: "/images/deluxesaffron.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "A rich combination of authentic Kashmiri saffron and premium almonds, curated for elegant gifting.",
   },
   {
     id: "6",
@@ -47,7 +51,8 @@ const products = [
     price: 5499,
     category: "Gift Hampers",
     image: "/images/grandheritage.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "A luxury heritage gift box featuring premium dry fruits, sweets, and traditional Kashmiri presentation.",
   },
   {
     id: "7",
@@ -55,7 +60,8 @@ const products = [
     price: 3599,
     category: "Gift Hampers",
     image: "/images/kashmiriwalnut.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "An artisanal Kashmiri gift box with natural honey and hand-selected walnuts.",
   },
   {
     id: "8",
@@ -63,7 +69,8 @@ const products = [
     price: 5499,
     category: "Gift Hampers",
     image: "/images/grandgift.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "A premium Kashmiri heritage hamper designed for weddings and high-end celebrations.",
   },
   {
     id: "9",
@@ -71,7 +78,8 @@ const products = [
     price: 3299,
     category: "Gift Hampers",
     image: "/images/kashmirifestive.png",
-    description: "Hand-packed dry fruits sourced directly from Kashmir valley.",
+    description:
+      "A festive Kashmiri hamper filled with dry fruits and traditional delicacies, ideal for celebrations.",
   },
 
   /* ================= PASHMINA ================= */
@@ -82,7 +90,7 @@ const products = [
     category: "Pashmina Shawls",
     image: "/images/kaniweave.png",
     description:
-      "Authentic handwoven Pashmina shawl made by Kashmiri artisans.",
+      "Authentic Kani weave wool shawl handwoven by skilled Kashmiri artisans.",
   },
   {
     id: "11",
@@ -91,7 +99,7 @@ const products = [
     category: "Pashmina Shawls",
     image: "/images/dorukhashwal.png",
     description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+      "Reversible Dorukha shawl with zari detailing, offering warmth and timeless elegance.",
   },
   {
     id: "12",
@@ -100,7 +108,7 @@ const products = [
     category: "Pashmina Shawls",
     image: "/images/dubpalla.png",
     description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+      "A finely embroidered wool shawl featuring traditional Ari handwork.",
   },
   {
     id: "13",
@@ -108,8 +116,7 @@ const products = [
     price: 13650,
     category: "Pashmina Shawls",
     image: "/images/pashminahandloom.png",
-    description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+    description: "Luxury handloom Pashmina shawl with classic check patterns.",
   },
   {
     id: "14",
@@ -118,7 +125,7 @@ const products = [
     category: "Pashmina Shawls",
     image: "/images/potpurijama.png",
     description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+      "A vibrant raw silk shawl inspired by traditional Jama patterns.",
   },
   {
     id: "15",
@@ -126,8 +133,7 @@ const products = [
     price: 4012,
     category: "Pashmina Shawls",
     image: "/images/chinador.png",
-    description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+    description: "Elegant Dor Kani shawl inspired by Kashmiri Chinar motifs.",
   },
   {
     id: "16",
@@ -135,8 +141,7 @@ const products = [
     price: 4012,
     category: "Pashmina Shawls",
     image: "/images/badador.png",
-    description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+    description: "A premium Dor Kani weave shawl in a rich astral blue shade.",
   },
   {
     id: "17",
@@ -145,16 +150,16 @@ const products = [
     category: "Pashmina Shawls",
     image: "/images/kalamkarishawl.png",
     description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+      "Traditional Kalamkari-inspired shawl with intricate Ambi motifs.",
   },
   {
     id: "18",
-    name: "Jalaal Kani Antique Wool Shawl ",
+    name: "Jalaal Kani Antique Wool Shawl",
     price: 3776,
     category: "Pashmina Shawls",
     image: "/images/anique.png",
     description:
-      "Soft, warm and elegant shawl crafted using traditional techniques.",
+      "Antique-style Kani wool shawl with heritage Kashmiri patterns.",
   },
 
   /* ================= DRY FRUITS ================= */
@@ -164,7 +169,7 @@ const products = [
     price: 650,
     category: "Dry Fruits",
     image: "/images/kashmirimamrabadam.png",
-    description: "Crunchy premium almonds sourced from Kashmir.",
+    description: "Premium Mamra almonds sourced from the valleys of Kashmir.",
   },
   {
     id: "20",
@@ -172,39 +177,39 @@ const products = [
     price: 550,
     category: "Dry Fruits",
     image: "/images/kashmiriwalnutkernels.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "Fresh, nutrient-rich walnut kernels with authentic taste.",
   },
   {
     id: "21",
-    name: "Chilgoza Pine nut with Shell",
+    name: "Chilgoza Pine Nut with Shell",
     price: 1499,
     category: "Dry Fruits",
     image: "/images/chilgozapinenuts.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "Rare and premium Kashmiri Chilgoza pine nuts.",
   },
   {
     id: "22",
-    name: "Dried Figs/Anjeer",
+    name: "Dried Figs / Anjeer",
     price: 550,
     category: "Dry Fruits",
     image: "/images/driedfigs.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "Naturally sun-dried figs rich in fiber and nutrients.",
   },
   {
     id: "23",
-    name: "Dried Apricot Khubani(Seedless)",
+    name: "Dried Apricot Khubani (Seedless)",
     price: 425,
     category: "Dry Fruits",
     image: "/images/driedapricotkhubani.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "Soft, seedless Kashmiri apricots with natural sweetness.",
   },
   {
     id: "24",
-    name: "Black Kishmish/Black Raisins",
+    name: "Black Kishmish / Black Raisins",
     price: 450,
     category: "Dry Fruits",
     image: "/images/lackkishmish.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "Naturally dried black raisins with rich flavor.",
   },
   {
     id: "25",
@@ -212,15 +217,15 @@ const products = [
     price: 650,
     category: "Dry Fruits",
     image: "/images/kashmiripistachos.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "Crunchy pistachios sourced from Kashmir.",
   },
   {
     id: "26",
-    name: "Golden Kishmish/Golden Raisins",
+    name: "Golden Kishmish / Golden Raisins",
     price: 400,
     category: "Dry Fruits",
     image: "/images/goldenkishmish.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "Premium golden raisins with natural sweetness.",
   },
   {
     id: "27",
@@ -228,10 +233,10 @@ const products = [
     price: 750,
     category: "Dry Fruits",
     image: "/images/mixeddryfruits.png",
-    description: "Fresh organic walnuts with rich taste and nutrients.",
+    description: "A balanced mix of premium Kashmiri dry fruits.",
   },
 
-  /* ================= HANDICRAFTS (MORE PRODUCTS) ================= */
+  /* ================= HANDICRAFTS ================= */
   {
     id: "28",
     name: "Imperial Garnet Shah Abbas Carpet",
@@ -239,7 +244,7 @@ const products = [
     category: "Handicrafts",
     image: "/images/imperialgarnet.jpg",
     description:
-      "Hand-carved walnut wood jewelry box crafted by skilled artisans.",
+      "Handwoven Kashmiri carpet inspired by Shah Abbas floral motifs.",
   },
   {
     id: "29",
@@ -248,7 +253,7 @@ const products = [
     category: "Handicrafts",
     image: "/images/tealsaphire.jpg",
     description:
-      "Traditional papier mache artwork with intricate hand painting.",
+      "Luxury wool-silk carpet with intricate Persian-inspired patterns.",
   },
   {
     id: "30",
@@ -256,17 +261,15 @@ const products = [
     price: 34199,
     category: "Handicrafts",
     image: "/images/seabluemashhad.jpg",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Premium Mashhad-style carpet with fine detailing.",
   },
   {
     id: "31",
-    name: "Antique-White-Arak Carpet",
+    name: "Antique White Arak Carpet",
     price: 45199,
     category: "Handicrafts",
     image: "/images/Antique-White-Arak.jpg",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Elegant antique-style carpet with soft neutral tones.",
   },
   {
     id: "32",
@@ -274,26 +277,24 @@ const products = [
     price: 23199,
     category: "Handicrafts",
     image: "/images/alhambragreenmousel.jpg",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Traditional Mousel carpet with rich green hues.",
   },
   {
     id: "33",
-    name: "Amberglow-Ahar Carpet",
+    name: "Amberglow Ahar Carpet",
     price: 38500,
     category: "Handicrafts",
     image: "/images/Amberglow-Ahar.jpg",
     description:
-      "Traditional papier mache artwork with intricate hand painting.",
+      "A vibrant Ahar-style carpet showcasing Kashmiri craftsmanship.",
   },
   {
     id: "34",
-    name: "Angora-Kerman-Lavar Carpet",
+    name: "Angora Kerman Lavar Carpet",
     price: 43086,
     category: "Handicrafts",
     image: "/images/Angora-Kerman-Lavar.jpg",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "High-end carpet inspired by classic Kerman Lavar designs.",
   },
   {
     id: "35",
@@ -301,8 +302,7 @@ const products = [
     price: 68000,
     category: "Handicrafts",
     image: "/images/blueberryqum.jpg",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Exquisite Qum carpet crafted in fine wool-silk blend.",
   },
   {
     id: "36",
@@ -310,98 +310,87 @@ const products = [
     price: 21500,
     category: "Handicrafts",
     image: "/images/cherryred.jpg",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Rich cherry red carpet with elegant floral motifs.",
   },
   {
     id: "37",
-    name: "Lyons Bluenain Carpet",
+    name: "Lyons Blue Nain Carpet",
     price: 20000,
     category: "Handicrafts",
     image: "/images/lyonsbluenain.jpg",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Classic Nain-style carpet with refined detailing.",
   },
   {
     id: "38",
-    name: "Candle Holder",
+    name: "Papier Mache Candle Holder",
     price: 450,
     category: "Handicrafts",
     image: "/images/candleholder.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Hand-painted Kashmiri papier mache candle holder.",
   },
   {
     id: "39",
-    name: "Coasters",
+    name: "Papier Mache Coasters (Set)",
     price: 1300,
     category: "Handicrafts",
     image: "/images/coasters.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Decorative papier mache coasters with floral designs.",
   },
   {
     id: "40",
-    name: "Decorative Vase",
+    name: "Papier Mache Decorative Vase",
     price: 1500,
     category: "Handicrafts",
     image: "/images/decorativevase.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Handcrafted papier mache vase with intricate patterns.",
   },
   {
     id: "41",
-    name: "Carved Elephant",
+    name: "Handcrafted Elephant Figurine",
     price: 900,
     category: "Handicrafts",
     image: "/images/elephant.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Artisan-made decorative elephant inspired by Kashmiri art.",
   },
   {
     id: "42",
-    name: "Floral Box",
+    name: "Floral Papier Mache Box",
     price: 1500,
     category: "Handicrafts",
     image: "/images/floralbox.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Hand-painted floral papier mache storage box.",
   },
   {
     id: "43",
-    name: "Handicraft Box",
+    name: "Traditional Handicraft Box",
     price: 1100,
     category: "Handicrafts",
     image: "/images/handicraftbox.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Multipurpose Kashmiri handicraft box with classic artwork.",
   },
   {
     id: "44",
-    name: "Jewellery Box",
+    name: "Papier Mache Jewellery Box",
     price: 1800,
     category: "Handicrafts",
     image: "/images/jwellerybox.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Elegant jewellery box handcrafted using papier mache art.",
   },
   {
     id: "45",
-    name: "Kashmiri Bowl",
+    name: "Kashmiri Papier Mache Bowl",
     price: 1000,
     category: "Handicrafts",
     image: "/images/kashmiribowl.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Decorative papier mache bowl with traditional motifs.",
   },
   {
     id: "46",
-    name: "Pen Holder",
+    name: "Papier Mache Pen Holder",
     price: 900,
     category: "Handicrafts",
     image: "/images/penholder.png",
-    description:
-      "Traditional papier mache artwork with intricate hand painting.",
+    description: "Handcrafted pen holder featuring Kashmiri papier mache art.",
   },
 ];
 

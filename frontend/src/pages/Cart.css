@@ -1,0 +1,258 @@
+.cart-page {
+  padding: 120px 7%;
+}
+
+/* TITLE */
+.cart-title {
+  font-size: 36px;
+  margin-bottom: 50px;
+  color: #3a2616;
+}
+
+/* GRID – 2 CARDS PER ROW */
+.cart-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 50px;
+}
+
+/* CARD */
+.cart-card {
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(16px);
+  border-radius: 30px;
+  box-shadow: 0 30px 70px rgba(0, 0, 0, 0.12);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* IMAGE */
+.cart-img img {
+  width: 100%;
+  height: 300px;
+  object-fit: cover;
+  transition: transform 0.6s ease;
+}
+
+.cart-img img:hover {
+  transform: scale(1.08);
+}
+
+/* CONTENT */
+.cart-info {
+  padding: 28px 32px 34px;
+}
+
+.cart-info h3 {
+  font-size: 26px;
+  margin-bottom: 10px;
+  color: #2b1b10;
+}
+
+.cart-info .price {
+  font-size: 20px;
+  font-weight: 600;
+  color: #3e5c4b;
+  margin-bottom: 14px;
+}
+
+.cart-info .desc {
+  font-size: 15px;
+  color: #5b3a22;
+  line-height: 1.7;
+  margin-bottom: 26px;
+}
+
+/* ACTIONS */
+.cart-actions {
+  display: flex;
+  gap: 16px;
+}
+
+/* BUTTONS */
+.btn-primary {
+  background: #3e5c4b;
+  color: white;
+  padding: 12px 34px;
+  border-radius: 999px;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-outline {
+  border: 2px solid #e11d48;
+  color: #e11d48;
+  background: transparent;
+  padding: 12px 34px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.btn-outline:hover {
+  background: #e11d48;
+  color: white;
+}
+
+/* EMPTY CART */
+/* EMPTY CART */
+.empty-cart {
+  min-height: calc(100vh - 140px); /* navbar height adjust */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 20px;
+  padding: 60px 20px;
+}
+
+.empty-cart img {
+  max-width: 180px;
+  width: 100%;
+  margin-bottom: 10px;
+}
+
+.empty-cart p {
+  font-size: 20px;
+  color: #3f2a1d;
+  margin: 0;
+}
+
+.empty-cart .btn-primary {
+  margin-top: 10px;
+}
+
+
+/* RESPONSIVE */
+@media (max-width: 1100px) {
+  .cart-grid {
+    grid-template-columns: 1fr;
+  }
+}
+.qty-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.qty-box button {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid #3e5c4b;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+}
+
+.qty-box span {
+  font-size: 16px;
+  min-width: 20px;
+  text-align: center;
+}
+
+.item-total {
+  font-weight: 500;
+  margin-bottom: 12px;
+}
+/* ================= CART SUMMARY ================= */
+
+.cart-summary {
+  max-width: 420px;
+  margin-left: auto;
+  margin-top: 40px;
+}
+
+.summary-box {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  border-radius: 22px;
+  padding: 28px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.15);
+}
+
+.summary-box p {
+  display: flex;
+  justify-content: space-between;
+  font-size: 16px;
+  margin-bottom: 14px;
+  color: #4b3322;
+}
+
+.summary-box hr {
+  border: none;
+  height: 1px;
+  background: rgba(0, 0, 0, 0.12);
+  margin: 18px 0;
+}
+
+.summary-box .total {
+  font-size: 20px;
+  font-weight: 600;
+  color: #3a2616;
+}
+
+.checkout-btn {
+  width: 100%;
+  margin-top: 20px;
+  padding: 14px 0;
+  border-radius: 999px;
+  font-size: 16px;
+}
+
+/* ================= QUANTITY ================= */
+
+.qty-box {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0;
+}
+
+.qty-box button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 1px solid #3e5c4b;
+  background: transparent;
+  font-size: 18px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.qty-box button:hover {
+  background: #3e5c4b;
+  color: #fff;
+}
+
+.qty-box span {
+  min-width: 20px;
+  text-align: center;
+  font-size: 16px;
+}
+
+.item-total {
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+/* ================= REMOVE BUTTON ================= */
+
+.cart-actions .btn-outline {
+  border: 2px solid #e11d48;
+  color: #e11d48;
+  background: transparent;
+  padding: 10px 22px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.cart-actions .btn-outline:hover {
+  background: #e11d48;
+  color: #fff;
+}

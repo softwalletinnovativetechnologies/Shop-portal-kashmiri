@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { getCart, removeFromCart, updateQuantity } from "../utils/cart";
+import { useNavigate } from "react-router-dom";
 import "./Cart.css";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
+  const navigate = useNavigate();
 
   /* LOAD CART */
   useEffect(() => {
@@ -116,7 +118,10 @@ export default function Cart() {
             <span>₹{subtotal}</span>
           </p>
 
-          <button className="btn-primary checkout-btn">
+          <button
+            className="btn-primary checkout-btn"
+            onClick={() => navigate("/checkout")}
+          >
             Checkout Securely
           </button>
         </div>

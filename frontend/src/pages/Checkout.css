@@ -1,0 +1,163 @@
+.checkout-page {
+  padding: 60px 80px;
+}
+
+.checkout-title {
+  font-size: 36px;
+  margin-bottom: 40px;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 0.8fr;
+  gap: 30px;
+}
+
+.checkout-card {
+  background: #fff6ee;
+  border-radius: 24px;
+  padding: 30px;
+}
+
+.checkout-card h2 {
+  margin-bottom: 20px;
+}
+
+/* ADDRESS */
+.saved-address {
+  display: flex;
+  gap: 12px;
+  padding: 12px;
+  border-radius: 12px;
+  cursor: pointer;
+}
+
+.saved-address input {
+  margin-top: 4px;
+}
+
+.saved-address:hover {
+  background: #f3e9df;
+}
+
+.link-btn {
+  background: none;
+  border: none;
+  color: #2f5d4a;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 12px;
+}
+
+.address-form input,
+.address-form textarea {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 12px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+}
+
+/* PAYMENT */
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 0;
+  cursor: pointer;
+}
+
+.payment-option input {
+  accent-color: #2f5d4a;
+}
+
+/* SUMMARY */
+.summary p {
+  display: flex;
+  justify-content: space-between;
+  margin: 12px 0;
+}
+
+.summary .total {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.btn-primary {
+  background: #2f5d4a;
+  color: white;
+  border: none;
+  padding: 14px;
+  border-radius: 30px;
+  width: 100%;
+  margin-top: 20px;
+  cursor: pointer;
+}
+.phone-row {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+}
+
+/* COUNTRY CODE */
+.phone-row select {
+  width: 110px;
+  height: 52px;
+  padding: 0 14px;
+  border-radius: 14px;
+  border: 1px solid #d1d1d1;
+  font-size: 15px;
+  background: #fff;
+  color: #333;
+  outline: none;
+  appearance: none;
+  cursor: pointer;
+}
+
+/* PHONE NUMBER */
+.phone-row input {
+  flex: 1;
+  height: 52px;
+  padding: 0 16px;
+  border-radius: 14px;
+  border: 1px solid #d1d1d1;
+  font-size: 15px;
+  outline: none;
+}
+
+/* FOCUS EFFECT (Amazon-style) */
+.phone-row select:focus,
+.phone-row input:focus {
+  border-color: #2f5d4a;
+  box-shadow: 0 0 0 2px rgba(47, 93, 74, 0.15);
+}
+
+
+.saved-address {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  background: #f7efe6;
+  padding: 14px;
+  border-radius: 14px;
+  margin-bottom: 12px;
+}
+
+.saved-address label {
+  display: flex;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.address-actions button {
+  background: none;
+  border: none;
+  color: #2f5d4a;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 8px;
+}
+
+.address-actions button:last-child {
+  color: #e11d48;
+}

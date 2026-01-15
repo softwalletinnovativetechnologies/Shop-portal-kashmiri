@@ -19,44 +19,36 @@ export const addToCart = (product) => {
   if (existing) {
     existing.quantity += 1;
   } else {
-    cart.push({
-      ...product,
-      price: Number(product.price),
-      quantity: 1,
-    });
+    cart.push({ ...product, quantity: 1 });
   }
 
   saveCart(cart);
 };
 
-/* UPDATE QUANTITY */
-export const updateQuantity = (id, qty) => {
-  let cart = getCart();
-
-  cart = cart.map((item) =>
-    item.id === id ? { ...item, quantity: qty } : item
-  );
-
-  cart = cart.filter((item) => item.quantity > 0); // auto remove
-
-  saveCart(cart);
-};
-
-/* REMOVE ITEM */
+/* REMOVE FROM CART */
 export const removeFromCart = (id) => {
   const cart = getCart().filter((item) => item.id !== id);
   saveCart(cart);
 };
 
+/* UPDATE QUANTITY */
+export const updateQuantity = (id, change) => {
+  const cart = getCart()
+    .map((item) =>
+      item.id === id ? { ...item, quantity: item.quantity + change } : item
+    )
+    .filter((item) => item.quantity > 0);
+
+  saveCart(cart);
+};
+
+/* CLEAR CART ✅ (THIS WAS MISSING) */
+export const clearCart = () => {
+  localStorage.removeItem(CART_KEY);
+  window.dispatchEvent(new Event("cartUpdated"));
+};
+
 /* CART COUNT */
 export const getCartCount = () => {
   return getCart().reduce((sum, item) => sum + item.quantity, 0);
-};
-
-/* CART TOTAL */
-export const getCartTotal = () => {
-  return getCart().reduce(
-    (sum, item) => sum + Number(item.price) * Number(item.quantity),
-    0
-  );
 };

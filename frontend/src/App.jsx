@@ -8,6 +8,7 @@ import Wishlist from "./pages/Wishlist";
 import Cart from "./pages/Cart";
 import About from "./pages/About";
 import Register from "./pages/Register";
+import Checkout from "./pages/Checkout";
 
 export default function App() {
   return (
@@ -23,6 +24,7 @@ export default function App() {
         <Route path="/wishlist" element={<Wishlist />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/about" element={<About />} />
+        <Route path="/checkout" element={<Checkout />} />
       </Routes>
     </>
   );

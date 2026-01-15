@@ -1,0 +1,30 @@
+.breadcrumb {
+  max-width: 1200px;
+  margin: 30px auto 20px;
+  padding: 0 20px;
+  font-size: 14px;
+  color: #6b5a4a;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.breadcrumb a {
+  color: #6b5a4a;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.breadcrumb a:hover {
+  color: #2f4f3f;
+}
+
+.breadcrumb .separator {
+  margin: 0 8px;
+  color: #c2b4a3;
+}
+
+.breadcrumb .active {
+  font-weight: 600;
+  color: #2f4f3f;
+}

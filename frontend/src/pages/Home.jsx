@@ -1,8 +1,11 @@
 import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 
 export default function Home() {
   const typingRef = useRef(null);
+  const footerRef = useRef(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     /* ================= SCROLL REVEAL ================= */
@@ -14,8 +17,7 @@ export default function Home() {
           if (entry.isIntersecting) {
             entry.target.classList.add("active");
           } else {
-            // 🔥 repeat animation
-            entry.target.classList.remove("active");
+            entry.target.classList.remove("active"); // 🔥 repeat animation
           }
         });
       },
@@ -24,12 +26,12 @@ export default function Home() {
 
     reveals.forEach((el) => revealObserver.observe(el));
 
-    /* ================= TYPING REPEAT ================= */
+    /* ================= TYPING TEXT (REPEAT ON SCROLL) ================= */
     const typingEl = typingRef.current;
 
     const typingObserver = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && typingEl) {
           typingEl.classList.remove("type-animate");
           void typingEl.offsetWidth; // force reflow
           typingEl.classList.add("type-animate");
@@ -46,13 +48,17 @@ export default function Home() {
     };
   }, []);
 
+  const scrollToFooter = () => {
+    footerRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
   return (
     <div className="home">
       {/* ================= HERO ================= */}
       <section className="hero reveal">
         <div className="hero-content">
           <h1 className="hero-title">
-            <span ref={typingRef} className="typing-text">
+            <span ref={typingRef} className="typing-text type-animate">
               Authentic Gifts
               <br /> from Kashmir
             </span>
@@ -62,7 +68,12 @@ export default function Home() {
             Handcrafted • Premium • Timeless
           </p>
 
-          <button className="btn-primary reveal delay-2">Shop Now</button>
+          <button
+            className="btn-primary reveal delay-2"
+            onClick={() => navigate("/shop")}
+          >
+            Shop Now
+          </button>
         </div>
       </section>
 
@@ -71,28 +82,40 @@ export default function Home() {
         <h2 className="section-title reveal">Shop by Category</h2>
 
         <div className="category-grid">
-          <div className="category-card reveal delay-1">
+          <div
+            className="category-card reveal delay-1"
+            onClick={() => navigate("/shop?category=Gift Hampers")}
+          >
             <img src="/images/gifthamper.png" alt="Gift Hampers" />
             <div className="category-overlay">
               <h3>Gift Hampers</h3>
             </div>
           </div>
 
-          <div className="category-card reveal delay-2">
+          <div
+            className="category-card reveal delay-2"
+            onClick={() => navigate("/shop?category=Pashmina Shawls")}
+          >
             <img src="/images/pashmina.png" alt="Pashmina Shawls" />
             <div className="category-overlay">
               <h3>Pashmina Shawls</h3>
             </div>
           </div>
 
-          <div className="category-card reveal delay-3">
+          <div
+            className="category-card reveal delay-3"
+            onClick={() => navigate("/shop?category=Dry Fruits")}
+          >
             <img src="/images/dryfruits.png" alt="Dry Fruits" />
             <div className="category-overlay">
               <h3>Dry Fruits</h3>
             </div>
           </div>
 
-          <div className="category-card reveal delay-4">
+          <div
+            className="category-card reveal delay-4"
+            onClick={() => navigate("/shop?category=Handicrafts")}
+          >
             <img src="/images/handicrafts.png" alt="Handicrafts" />
             <div className="category-overlay">
               <h3>Handicrafts</h3>
@@ -114,7 +137,10 @@ export default function Home() {
               Every gift tells a story of Kashmir’s heritage and the skilled
               artisans behind it.
             </p>
-            <button className="btn-primary">Learn More</button>
+
+            <button className="btn-primary" onClick={() => navigate("/about")}>
+              Learn More
+            </button>
           </div>
         </div>
       </section>
@@ -157,31 +183,35 @@ export default function Home() {
           <button className="btn-primary">Subscribe</button>
         </div>
       </section>
+
       {/* ================= FOOTER ================= */}
-      <footer className="footer">
+      <footer className="footer" ref={footerRef} id="contact">
         <div className="footer-container">
-          {/* LEFT */}
           <div className="footer-links">
-            <a href="/about">About Us</a>
-            <a href="/shop">Shop</a>
-            <a href="/contact">Contact</a>
+            <span onClick={() => navigate("/about")}>About Us</span>
+            <span onClick={() => navigate("/shop")}>Shop</span>
+            <span onClick={scrollToFooter}>Contact</span>
           </div>
 
-          {/* CENTER LOGO */}
           <div className="footer-logo">
             <img src="/images/logofooter.png" alt="Kashmir Logo" />
           </div>
 
-          {/* RIGHT */}
           <div className="footer-right">
-            <a href="/privacy-policy">Privacy Policy</a>
+            <span onClick={() => navigate("/privacy-policy")}>
+              Privacy Policy
+            </span>
 
             <div className="footer-socials">
-              <a href="https://wa.me/91XXXXXXXXXX" target="_blank">
+              <a
+                href="https://wa.me/91XXXXXXXXXX"
+                target="_blank"
+                rel="noreferrer"
+              >
                 <i className="fa-brands fa-whatsapp"></i>
               </a>
 
-              <a href="https://instagram.com" target="_blank">
+              <a href="https://instagram.com" target="_blank" rel="noreferrer">
                 <i className="fa-brands fa-instagram"></i>
               </a>
             </div>

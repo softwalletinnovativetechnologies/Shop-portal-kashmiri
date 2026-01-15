@@ -6,39 +6,45 @@ import "./Cart.css";
 export default function Cart() {
   const [cart, setCart] = useState([]);
 
+  /* LOAD CART */
   useEffect(() => {
     setCart(getCart());
+
+    const syncCart = () => setCart(getCart());
+    window.addEventListener("cartUpdated", syncCart);
+
+    return () => window.removeEventListener("cartUpdated", syncCart);
   }, []);
 
-  const increaseQty = (id) => {
-    updateQuantity(id, 1);
-    setCart(getCart());
+  /* INCREASE QTY */
+  const increaseQty = (item) => {
+    updateQuantity(item.id, item.quantity + 1);
   };
 
-  const decreaseQty = (id, qty) => {
-    if (qty === 1) {
-      removeFromCart(id);
-    } else {
-      updateQuantity(id, -1);
-    }
-    setCart(getCart());
+  /* DECREASE QTY (auto remove at 0 handled in utils) */
+  const decreaseQty = (item) => {
+    updateQuantity(item.id, item.quantity - 1);
   };
 
+  /* REMOVE */
   const handleRemove = (id) => {
     removeFromCart(id);
-    setCart(getCart());
   };
 
+  /* SUBTOTAL */
   const subtotal = cart.reduce(
-    (sum, item) => sum + item.price * item.quantity,
+    (sum, item) => sum + Number(item.price) * Number(item.quantity),
     0
   );
 
+  /* EMPTY CART */
   if (cart.length === 0) {
     return (
       <div className="empty-cart">
         <img src="/images/empty-cart.png" alt="Empty Cart" />
-        <p>Your cart is empty 🛒</p>
+        <h2>Your cart is empty</h2>
+        <p>Add premium Kashmiri products to continue</p>
+
         <Link to="/shop" className="btn-primary">
           Continue Shopping
         </Link>
@@ -53,27 +59,30 @@ export default function Cart() {
       <div className="cart-grid">
         {cart.map((item) => (
           <div className="cart-card" key={item.id}>
+            {/* IMAGE */}
             <div className="cart-img">
               <img src={item.image} alt={item.name} />
             </div>
 
+            {/* INFO */}
             <div className="cart-info">
               <h3>{item.name}</h3>
               <p className="price">₹{item.price}</p>
               <p className="desc">{item.description}</p>
 
+              {/* QUANTITY */}
               <div className="qty-box">
-                <button onClick={() => decreaseQty(item.id, item.quantity)}>
-                  −
-                </button>
+                <button onClick={() => decreaseQty(item)}>−</button>
                 <span>{item.quantity}</span>
-                <button onClick={() => increaseQty(item.id)}>+</button>
+                <button onClick={() => increaseQty(item)}>+</button>
               </div>
 
+              {/* ITEM TOTAL */}
               <p className="item-total">
                 Item Total: ₹{item.price * item.quantity}
               </p>
 
+              {/* ACTIONS */}
               <div className="cart-actions">
                 <button
                   className="btn-outline"
@@ -94,11 +103,14 @@ export default function Cart() {
             <span>Subtotal</span>
             <span>₹{subtotal}</span>
           </p>
+
           <p>
             <span>Shipping</span>
             <span>FREE</span>
           </p>
+
           <hr />
+
           <p className="total">
             <span>Total</span>
             <span>₹{subtotal}</span>

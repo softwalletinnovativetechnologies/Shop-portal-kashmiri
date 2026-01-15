@@ -1,7 +1,10 @@
 import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+
 import "./About.css";
 
 export default function About() {
+  const navigate = useNavigate();
   useEffect(() => {
     const elements = document.querySelectorAll(".reveal");
 
@@ -31,7 +34,12 @@ export default function About() {
           <p className="reveal delay-2">
             Crafted with Passion in the Heart of Kashmir
           </p>
-          <button className="primary-btn reveal delay-3">Shop Now</button>
+          <button
+            className="primary-btn reveal delay-3"
+            onClick={() => navigate("/shop")}
+          >
+            Shop Now
+          </button>
         </div>
       </section>
 
@@ -52,7 +60,9 @@ export default function About() {
             <li>Valley sourced dry fruits.</li>
           </ul>
 
-          <button className="primary-btn">Shop Now</button>
+          <button className="primary-btn" onClick={() => navigate("/shop")}>
+            Shop Now
+          </button>
         </div>
 
         <div className="story-image reveal delay-2">

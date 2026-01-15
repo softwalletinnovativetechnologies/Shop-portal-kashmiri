@@ -1,12 +1,16 @@
-import { useEffect, useState } from "react";
-import { NavLink } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { NavLink, useNavigate, useLocation } from "react-router-dom";
 import { getWishlistCount } from "../utils/wishlist";
 import { getCartCount } from "../utils/cart";
 import "./Navbar.css";
 
-export default function Navbar() {
+function Navbar() {
   const [wishlistCount, setWishlistCount] = useState(0);
   const [cartCount, setCartCount] = useState(0);
+  const [scrolled, setScrolled] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const updateCounts = () => {
@@ -19,14 +23,31 @@ export default function Navbar() {
     window.addEventListener("wishlistUpdated", updateCounts);
     window.addEventListener("cartUpdated", updateCounts);
 
+    const onScroll = () => {
+      setScrolled(window.scrollY > 40);
+    };
+
+    window.addEventListener("scroll", onScroll);
+
     return () => {
       window.removeEventListener("wishlistUpdated", updateCounts);
       window.removeEventListener("cartUpdated", updateCounts);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 
+  const handleContactClick = () => {
+    if (location.pathname !== "/") {
+      navigate("/#contact");
+    } else {
+      document
+        .getElementById("contact")
+        ?.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
-    <nav className="navbar">
+    <nav className={`navbar ${scrolled ? "scrolled" : ""}`}>
       {/* LEFT */}
       <div className="nav-left">
         <NavLink to="/" className="logo">
@@ -45,9 +66,9 @@ export default function Navbar() {
         <NavLink to="/about" className="nav-link">
           About
         </NavLink>
-        <NavLink to="/contact" className="nav-link">
+        <span className="nav-link" onClick={handleContactClick}>
           Contact
-        </NavLink>
+        </span>
       </div>
 
       {/* RIGHT */}
@@ -58,7 +79,7 @@ export default function Navbar() {
         </NavLink>
 
         <NavLink to="/cart" className="nav-icon">
-          <i className="fa-solid fa-cart-shopping"></i>
+          <i className="fa-solid fa-bag-shopping"></i>
           {cartCount > 0 && <span className="badge">{cartCount}</span>}
         </NavLink>
 
@@ -69,3 +90,5 @@ export default function Navbar() {
     </nav>
   );
 }
+
+export default Navbar;

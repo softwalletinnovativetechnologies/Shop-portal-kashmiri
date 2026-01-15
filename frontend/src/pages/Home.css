@@ -431,8 +431,8 @@ section {
 }
 
 .footer-logo img {
-  height: 56px;              
-  max-width: 400px;         
+  height: 60px;              
+  max-width: 500px;         
   width: 100%;
   object-fit: contain;
 }

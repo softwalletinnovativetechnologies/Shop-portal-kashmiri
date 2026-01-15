@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import products from "../data/products";
 import { toggleWishlist, isInWishlist } from "../utils/wishlist";
 import { addToCart } from "../utils/cart";
+import Breadcrumbs from "../components/Breadcrumbs";
 import "./productDetails.css";
 
 export default function ProductDetail() {
@@ -29,6 +30,9 @@ export default function ProductDetail() {
 
   return (
     <div className="product-detail-page">
+      {/* ✅ BREADCRUMB */}
+      <Breadcrumbs />
+
       <div className="product-detail-card">
         {/* IMAGE */}
         <div className="product-image" onClick={() => setShowImage(true)}>
@@ -40,7 +44,6 @@ export default function ProductDetail() {
         <div className="product-info">
           <h1>{product.name}</h1>
           <p className="price">₹{product.price}</p>
-
           <p className="description">{product.description}</p>
 
           <div className="actions">

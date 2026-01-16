@@ -7,19 +7,27 @@ import "./Wishlist.css";
 export default function Wishlist() {
   const [wishlist, setWishlist] = useState([]);
 
+  /* LOAD + SYNC */
   useEffect(() => {
-    setWishlist(getWishlist());
+    const syncWishlist = () => setWishlist(getWishlist());
+
+    syncWishlist();
+    window.addEventListener("wishlistUpdated", syncWishlist);
+
+    return () => window.removeEventListener("wishlistUpdated", syncWishlist);
   }, []);
 
   const handleRemove = (id) => {
     removeFromWishlist(id);
-    setWishlist(getWishlist());
+    window.dispatchEvent(new Event("wishlistUpdated"));
   };
 
   const handleMoveToCart = (product) => {
     addToCart(product);
     removeFromWishlist(product.id);
-    setWishlist(getWishlist());
+
+    window.dispatchEvent(new Event("cartUpdated"));
+    window.dispatchEvent(new Event("wishlistUpdated"));
   };
 
   if (wishlist.length === 0) {
@@ -27,9 +35,12 @@ export default function Wishlist() {
       <div className="empty-wishlist">
         <img src="/images/empty-wishlist.png" alt="Empty Wishlist" />
         <p>Your wishlist is empty 💔</p>
-        <Link to="/shop" className="btn-primary">
-          Continue Shopping
-        </Link>
+
+        <div className="empty-action">
+          <Link to="/shop" className="btn-primary">
+            Continue Shopping
+          </Link>
+        </div>
       </div>
     );
   }
@@ -48,7 +59,6 @@ export default function Wishlist() {
             <div className="wishlist-info">
               <h3>{item.name}</h3>
               <p className="price">₹{item.price}</p>
-              <p className="desc">{item.description}</p>
 
               <div className="wishlist-actions">
                 <button

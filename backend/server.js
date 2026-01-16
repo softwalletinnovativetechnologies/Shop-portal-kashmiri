@@ -3,25 +3,36 @@ import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
 
+import productRoutes from "./routes/productRoutes.js";
+
 dotenv.config();
 
 const app = express();
 
+// ===== MIDDLEWARE =====
 app.use(cors());
 app.use(express.json());
 
+// ===== ROUTES =====
+app.use("/api/products", productRoutes);
+
+// ROOT TEST
 app.get("/", (req, res) => {
-  res.send("Backend is running 🚀");
+  res.send("Backend API running 🚀");
 });
 
-// PORT
-const PORT = process.env.PORT || 5000;
+// ===== SERVER + DB =====
+const PORT = process.env.PORT || 5001;
 
-// DB CONNECT
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
-    console.log("MongoDB Connected ✅");
-    app.listen(PORT, () => console.log(`Server running on port ${PORT}`));
+    console.log("✅ MongoDB Connected");
+
+    app.listen(PORT, () => {
+      console.log(`✅ Server running on http://localhost:${PORT}`);
+    });
   })
-  .catch((err) => console.log(err));
+  .catch((err) => {
+    console.error("❌ MongoDB connection error:", err.message);
+  });

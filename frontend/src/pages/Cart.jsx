@@ -1,59 +1,61 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getCart, removeFromCart, updateQuantity } from "../utils/cart";
-import { useNavigate } from "react-router-dom";
+import { getCart, removeFromCart, setQuantity } from "../utils/cart";
 import "./Cart.css";
 
 export default function Cart() {
   const [cart, setCart] = useState([]);
-  const navigate = useNavigate();
 
-  /* LOAD CART */
   useEffect(() => {
     setCart(getCart());
-
-    const syncCart = () => setCart(getCart());
-    window.addEventListener("cartUpdated", syncCart);
-
-    return () => window.removeEventListener("cartUpdated", syncCart);
   }, []);
 
-  /* INCREASE QTY */
-  const increaseQty = (item) => {
-    updateQuantity(item.id, item.quantity + 1);
+  /* ================= HELPERS ================= */
+  const refreshCart = () => {
+    setCart(getCart());
+    window.dispatchEvent(new Event("cartUpdated"));
   };
 
-  /* DECREASE QTY (auto remove at 0 handled in utils) */
-  const decreaseQty = (item) => {
-    updateQuantity(item.id, item.quantity - 1);
+  const increaseQty = (id, currentQty) => {
+    const newQty = currentQty + 1;
+    setQuantity(id, newQty);
+    refreshCart();
   };
 
-  /* REMOVE */
+  const decreaseQty = (id, currentQty) => {
+    if (currentQty <= 1) {
+      removeFromCart(id);
+    } else {
+      setQuantity(id, currentQty - 1);
+    }
+    refreshCart();
+  };
+
   const handleRemove = (id) => {
     removeFromCart(id);
+    refreshCart();
   };
 
-  /* SUBTOTAL */
   const subtotal = cart.reduce(
     (sum, item) => sum + Number(item.price) * Number(item.quantity),
     0
   );
 
-  /* EMPTY CART */
+  /* ================= EMPTY CART ================= */
   if (cart.length === 0) {
     return (
       <div className="empty-cart">
         <img src="/images/empty-cart.png" alt="Empty Cart" />
         <h2>Your cart is empty</h2>
-        <p>Add premium Kashmiri products to continue</p>
 
-        <Link to="/shop" className="btn-primary">
+        <Link to="/shop" className="btn-primary small-btn">
           Continue Shopping
         </Link>
       </div>
     );
   }
 
+  /* ================= CART PAGE ================= */
   return (
     <div className="cart-page">
       <h1 className="cart-title">Your Cart</h1>
@@ -61,44 +63,42 @@ export default function Cart() {
       <div className="cart-grid">
         {cart.map((item) => (
           <div className="cart-card" key={item.id}>
-            {/* IMAGE */}
             <div className="cart-img">
               <img src={item.image} alt={item.name} />
             </div>
 
-            {/* INFO */}
             <div className="cart-info">
               <h3>{item.name}</h3>
               <p className="price">₹{item.price}</p>
-              <p className="desc">{item.description}</p>
 
-              {/* QUANTITY */}
               <div className="qty-box">
-                <button onClick={() => decreaseQty(item)}>−</button>
+                <button onClick={() => decreaseQty(item.id, item.quantity)}>
+                  −
+                </button>
+
                 <span>{item.quantity}</span>
-                <button onClick={() => increaseQty(item)}>+</button>
-              </div>
 
-              {/* ITEM TOTAL */}
-              <p className="item-total">
-                Item Total: ₹{item.price * item.quantity}
-              </p>
-
-              {/* ACTIONS */}
-              <div className="cart-actions">
-                <button
-                  className="btn-outline"
-                  onClick={() => handleRemove(item.id)}
-                >
-                  Remove
+                <button onClick={() => increaseQty(item.id, item.quantity)}>
+                  +
                 </button>
               </div>
+
+              <p className="item-total">
+                Item Total: ₹{Number(item.price) * Number(item.quantity)}
+              </p>
+
+              <button
+                className="btn-outline"
+                onClick={() => handleRemove(item.id)}
+              >
+                Remove
+              </button>
             </div>
           </div>
         ))}
       </div>
 
-      {/* SUMMARY */}
+      {/* ================= SUMMARY ================= */}
       <div className="cart-summary">
         <div className="summary-box">
           <p>
@@ -118,12 +118,9 @@ export default function Cart() {
             <span>₹{subtotal}</span>
           </p>
 
-          <button
-            className="btn-primary checkout-btn"
-            onClick={() => navigate("/checkout")}
-          >
+          <Link to="/checkout" className="btn-primary checkout-btn">
             Checkout Securely
-          </button>
+          </Link>
         </div>
       </div>
     </div>

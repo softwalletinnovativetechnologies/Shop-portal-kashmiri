@@ -1,50 +1,39 @@
-import { useParams } from "react-router-dom";
-import { useState, useEffect } from "react";
+import { useParams, useNavigate } from "react-router-dom";
 import products from "../data/products";
-import { toggleWishlist, isInWishlist } from "../utils/wishlist";
 import { addToCart } from "../utils/cart";
-import Breadcrumbs from "../components/Breadcrumbs";
+import { toggleWishlist, isInWishlist } from "../utils/wishlist";
+import { useState } from "react";
 import "./productDetails.css";
 
-export default function ProductDetail() {
+export default function ProductDetails() {
   const { id } = useParams();
-  const product = products.find((p) => String(p.id) === id);
+  const navigate = useNavigate();
+  const product = products.find((p) => p.id === Number(id));
 
-  const [wishlisted, setWishlisted] = useState(false);
-  const [showImage, setShowImage] = useState(false);
-
-  useEffect(() => {
-    if (product) {
-      setWishlisted(isInWishlist(product.id));
-    }
-  }, [product]);
+  const [wish, setWish] = useState(product ? isInWishlist(product.id) : false);
 
   if (!product) {
-    return <h2 className="not-found">Product not found</h2>;
+    return (
+      <div className="not-found">
+        <h2>Product not found 😢</h2>
+        <button onClick={() => navigate("/shop")}>Back to Shop</button>
+      </div>
+    );
   }
 
-  const handleWishlist = () => {
-    toggleWishlist(product);
-    setWishlisted(isInWishlist(product.id));
-  };
-
   return (
-    <div className="product-detail-page">
-      {/* ✅ BREADCRUMB */}
-      <Breadcrumbs />
-
-      <div className="product-detail-card">
+    <div className="product-page">
+      <div className="product-container">
         {/* IMAGE */}
-        <div className="product-image" onClick={() => setShowImage(true)}>
+        <div className="product-image">
           <img src={product.image} alt={product.name} />
-          <span className="zoom-text">Click to zoom</span>
         </div>
 
         {/* INFO */}
         <div className="product-info">
           <h1>{product.name}</h1>
           <p className="price">₹{product.price}</p>
-          <p className="description">{product.description}</p>
+          <p className="desc">{product.description}</p>
 
           <div className="actions">
             <button className="btn-primary" onClick={() => addToCart(product)}>
@@ -52,21 +41,17 @@ export default function ProductDetail() {
             </button>
 
             <button
-              className={`btn-wishlist ${wishlisted ? "active" : ""}`}
-              onClick={handleWishlist}
+              className="btn-outline"
+              onClick={() => {
+                toggleWishlist(product);
+                setWish(!wish);
+              }}
             >
-              {wishlisted ? "💖 Wishlisted" : "♡ Add to Wishlist"}
+              {wish ? "❤️ Wishlisted" : "🤍 Add to Wishlist"}
             </button>
           </div>
         </div>
       </div>
-
-      {/* IMAGE MODAL */}
-      {showImage && (
-        <div className="image-modal" onClick={() => setShowImage(false)}>
-          <img src={product.image} alt={product.name} />
-        </div>
-      )}
     </div>
   );
 }

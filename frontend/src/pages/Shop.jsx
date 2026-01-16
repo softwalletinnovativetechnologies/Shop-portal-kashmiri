@@ -1,12 +1,18 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import products from "../data/products";
 import Breadcrumbs from "../components/Breadcrumbs";
 import "./Shop.css";
 
 const PRODUCTS_PER_PAGE = 9;
 
 export default function Shop() {
+    const [products, setProducts] = useState([]);
+useEffect(() => {
+    fetch("http://localhost:5001/api/products")
+      .then((res) => res.json())
+      .then((data) => setProducts(data));
+      .catch((err) => console.error(err));
+  }, []);
   const [category, setCategory] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
   const [maxPrice, setMaxPrice] = useState(100000);

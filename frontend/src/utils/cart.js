@@ -1,54 +1,53 @@
 const CART_KEY = "cart";
 
-/* GET CART */
+/* ================= GET CART ================= */
 export const getCart = () => {
-  return JSON.parse(localStorage.getItem(CART_KEY)) || [];
+  const data = localStorage.getItem(CART_KEY);
+  return data ? JSON.parse(data) : [];
 };
 
-/* SAVE CART */
-const saveCart = (cart) => {
+/* ================= COUNT ================= */
+export const getCartCount = () => {
+  return getCart().reduce((sum, item) => sum + Number(item.quantity || 0), 0);
+};
+
+/* ================= ADD TO CART ================= */
+export const addToCart = (product) => {
+  const cart = getCart();
+  const index = cart.findIndex((i) => i.id === product.id);
+
+  if (index !== -1) {
+    cart[index].quantity = Number(cart[index].quantity) + 1;
+  } else {
+    cart.push({
+      ...product,
+      quantity: 1,
+    });
+  }
+
   localStorage.setItem(CART_KEY, JSON.stringify(cart));
   window.dispatchEvent(new Event("cartUpdated"));
 };
 
-/* ADD TO CART */
-export const addToCart = (product) => {
-  const cart = getCart();
-  const existing = cart.find((item) => item.id === product.id);
-
-  if (existing) {
-    existing.quantity += 1;
-  } else {
-    cart.push({ ...product, quantity: 1 });
-  }
-
-  saveCart(cart);
-};
-
-/* REMOVE FROM CART */
-export const removeFromCart = (id) => {
-  const cart = getCart().filter((item) => item.id !== id);
-  saveCart(cart);
-};
-
-/* UPDATE QUANTITY */
-export const updateQuantity = (id, change) => {
-  const cart = getCart()
-    .map((item) =>
-      item.id === id ? { ...item, quantity: item.quantity + change } : item
-    )
+/* ================= SET QUANTITY (SAFE) ================= */
+export const setQuantity = (id, qty) => {
+  let cart = getCart()
+    .map((item) => (item.id === id ? { ...item, quantity: Number(qty) } : item))
     .filter((item) => item.quantity > 0);
 
-  saveCart(cart);
-};
-
-/* CLEAR CART ✅ (THIS WAS MISSING) */
-export const clearCart = () => {
-  localStorage.removeItem(CART_KEY);
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
   window.dispatchEvent(new Event("cartUpdated"));
 };
 
-/* CART COUNT */
-export const getCartCount = () => {
-  return getCart().reduce((sum, item) => sum + item.quantity, 0);
+/* ================= REMOVE ================= */
+export const removeFromCart = (id) => {
+  const cart = getCart().filter((item) => item.id !== id);
+  localStorage.setItem(CART_KEY, JSON.stringify(cart));
+  window.dispatchEvent(new Event("cartUpdated"));
+};
+
+/* ================= CLEAR CART ================= */
+export const clearCart = () => {
+  localStorage.removeItem(CART_KEY);
+  window.dispatchEvent(new Event("cartUpdated"));
 };

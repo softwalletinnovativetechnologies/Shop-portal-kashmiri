@@ -78,15 +78,31 @@ export default function Checkout() {
   };
 
   /* ================= PLACE ORDER ================= */
-  const placeOrder = () => {
+  const placeOrder = async () => {
     if (!selectedAddress) {
-      toast.error("Please select a delivery address");
+      alert("Please select an address");
       return;
     }
 
-    clearCart();
-    toast.success("Order placed successfully 🎉");
-    navigate("/");
+    try {
+      await fetch("http://localhost:5000/api/orders", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          items: cart,
+          address: addresses.find((a) => a.id === selectedAddress),
+          paymentMethod: payment,
+          totalAmount: subtotal,
+        }),
+      });
+
+      clearCart();
+      navigate("/");
+    } catch (error) {
+      console.error("Order failed", error);
+    }
   };
 
   return (

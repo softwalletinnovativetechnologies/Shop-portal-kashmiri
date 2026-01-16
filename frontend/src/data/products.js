@@ -1,7 +1,7 @@
 const products = [
   /* ================= GIFT HAMPERS ================= */
   {
-    id: "1",
+    id: 1,
     name: "Royal Kashmiri Gift Hamper",
     price: 3499,
     category: "Gift Hampers",
@@ -10,7 +10,7 @@ const products = [
       "An elegant Kashmiri gift hamper featuring premium dry fruits, traditional sweets, and artisanal packaging, perfect for festive and special occasions.",
   },
   {
-    id: "2",
+    id: 2,
     name: "Premium Wedding Gift Hamper",
     price: 4999,
     category: "Gift Hampers",
@@ -19,7 +19,7 @@ const products = [
       "Celebrate special occasions with our Premium Wedding Gift Hamper, thoughtfully curated with handpicked dry fruits, gourmet sweets, and traditional Kashmiri elements. This is an ideal choice for weddings, engagements, and festive gifting.",
   },
   {
-    id: "3",
+    id: 3,
     name: "Dry Fruits Treasure Box",
     price: 2299,
     category: "Gift Hampers",
@@ -28,7 +28,7 @@ const products = [
       "A premium assortment of handpicked Kashmiri dry fruits packed in an elegant box, perfect for healthy gifting.",
   },
   {
-    id: "4",
+    id: 4,
     name: "Kashmiri Honey & Walnut Gift Box",
     price: 3599,
     category: "Gift Hampers",
@@ -37,7 +37,7 @@ const products = [
       "A wholesome gift box featuring pure Kashmiri honey paired with premium quality walnuts in luxury packaging.",
   },
   {
-    id: "5",
+    id: 5,
     name: "Deluxe Saffron & Almond Hamper",
     price: 2799,
     category: "Gift Hampers",
@@ -46,7 +46,7 @@ const products = [
       "A rich combination of authentic Kashmiri saffron and premium almonds, curated for elegant gifting.",
   },
   {
-    id: "6",
+    id: 6,
     name: "Grand Heritage Gift Box",
     price: 5499,
     category: "Gift Hampers",
@@ -55,7 +55,7 @@ const products = [
       "A luxury heritage gift box featuring premium dry fruits, sweets, and traditional Kashmiri presentation.",
   },
   {
-    id: "7",
+    id: 7,
     name: "Kashmiri Honey & Walnut Gift Box",
     price: 3599,
     category: "Gift Hampers",
@@ -64,7 +64,7 @@ const products = [
       "An artisanal Kashmiri gift box with natural honey and hand-selected walnuts.",
   },
   {
-    id: "8",
+    id: 8,
     name: "Grand Heritage Gift Box",
     price: 5499,
     category: "Gift Hampers",
@@ -73,7 +73,7 @@ const products = [
       "A premium Kashmiri heritage hamper designed for weddings and high-end celebrations.",
   },
   {
-    id: "9",
+    id: 9,
     name: "Kashmiri Festive Gift Hamper",
     price: 3299,
     category: "Gift Hampers",
@@ -84,7 +84,7 @@ const products = [
 
   /* ================= PASHMINA ================= */
   {
-    id: "10",
+    id: 10,
     name: "Kani Weave Wool Shawl",
     price: 1999,
     category: "Pashmina Shawls",
@@ -93,7 +93,7 @@ const products = [
       "Authentic Kani weave wool shawl handwoven by skilled Kashmiri artisans.",
   },
   {
-    id: "11",
+    id: 11,
     name: "Zari Wool Dorukha Jaaldar Shawl",
     price: 2604,
     category: "Pashmina Shawls",
@@ -102,7 +102,7 @@ const products = [
       "Reversible Dorukha shawl with zari detailing, offering warmth and timeless elegance.",
   },
   {
-    id: "12",
+    id: 12,
     name: "Dub Palla Ari Hand Embroidery Wool Shawl",
     price: 3422,
     category: "Pashmina Shawls",
@@ -111,7 +111,7 @@ const products = [
       "A finely embroidered wool shawl featuring traditional Ari handwork.",
   },
   {
-    id: "13",
+    id: 13,
     name: "Handloom Pashmina Checks Shawl",
     price: 13650,
     category: "Pashmina Shawls",
@@ -119,7 +119,7 @@ const products = [
     description: "Luxury handloom Pashmina shawl with classic check patterns.",
   },
   {
-    id: "14",
+    id: 14,
     name: "Potpourri Jama Raw Silk Shawl",
     price: 4012,
     category: "Pashmina Shawls",
@@ -128,7 +128,7 @@ const products = [
       "A vibrant raw silk shawl inspired by traditional Jama patterns.",
   },
   {
-    id: "15",
+    id: 15,
     name: "Chinar Dor Kani Wool Shawl – Toosh Offwhite",
     price: 4012,
     category: "Pashmina Shawls",
@@ -136,7 +136,7 @@ const products = [
     description: "Elegant Dor Kani shawl inspired by Kashmiri Chinar motifs.",
   },
   {
-    id: "16",
+    id: 16,
     name: "Bada Dor Kani Weave Shawl – Astral Blue",
     price: 4012,
     category: "Pashmina Shawls",
@@ -144,7 +144,7 @@ const products = [
     description: "A premium Dor Kani weave shawl in a rich astral blue shade.",
   },
   {
-    id: "17",
+    id: 17,
     name: "Ambi Jama Kalamkari Shawl",
     price: 7670,
     category: "Pashmina Shawls",
@@ -153,7 +153,7 @@ const products = [
       "Traditional Kalamkari-inspired shawl with intricate Ambi motifs.",
   },
   {
-    id: "18",
+    id: 18,
     name: "Jalaal Kani Antique Wool Shawl",
     price: 3776,
     category: "Pashmina Shawls",
@@ -164,7 +164,7 @@ const products = [
 
   /* ================= DRY FRUITS ================= */
   {
-    id: "19",
+    id: 19,
     name: "Kashmiri Mamra Badam",
     price: 650,
     category: "Dry Fruits",
@@ -172,7 +172,7 @@ const products = [
     description: "Premium Mamra almonds sourced from the valleys of Kashmir.",
   },
   {
-    id: "20",
+    id: 20,
     name: "Kashmiri Walnut Kernels",
     price: 550,
     category: "Dry Fruits",
@@ -180,7 +180,7 @@ const products = [
     description: "Fresh, nutrient-rich walnut kernels with authentic taste.",
   },
   {
-    id: "21",
+    id: 21,
     name: "Chilgoza Pine Nut with Shell",
     price: 1499,
     category: "Dry Fruits",
@@ -188,7 +188,7 @@ const products = [
     description: "Rare and premium Kashmiri Chilgoza pine nuts.",
   },
   {
-    id: "22",
+    id: 22,
     name: "Dried Figs / Anjeer",
     price: 550,
     category: "Dry Fruits",
@@ -196,7 +196,7 @@ const products = [
     description: "Naturally sun-dried figs rich in fiber and nutrients.",
   },
   {
-    id: "23",
+    id: 23,
     name: "Dried Apricot Khubani (Seedless)",
     price: 425,
     category: "Dry Fruits",
@@ -204,7 +204,7 @@ const products = [
     description: "Soft, seedless Kashmiri apricots with natural sweetness.",
   },
   {
-    id: "24",
+    id: 24,
     name: "Black Kishmish / Black Raisins",
     price: 450,
     category: "Dry Fruits",
@@ -212,7 +212,7 @@ const products = [
     description: "Naturally dried black raisins with rich flavor.",
   },
   {
-    id: "25",
+    id: 25,
     name: "Kashmiri Pistachios",
     price: 650,
     category: "Dry Fruits",
@@ -220,7 +220,7 @@ const products = [
     description: "Crunchy pistachios sourced from Kashmir.",
   },
   {
-    id: "26",
+    id: 26,
     name: "Golden Kishmish / Golden Raisins",
     price: 400,
     category: "Dry Fruits",
@@ -228,7 +228,7 @@ const products = [
     description: "Premium golden raisins with natural sweetness.",
   },
   {
-    id: "27",
+    id: 27,
     name: "Mixed Dry Fruits",
     price: 750,
     category: "Dry Fruits",
@@ -238,7 +238,7 @@ const products = [
 
   /* ================= HANDICRAFTS ================= */
   {
-    id: "28",
+    id: 28,
     name: "Imperial Garnet Shah Abbas Carpet",
     price: 22799,
     category: "Handicrafts",
@@ -247,7 +247,7 @@ const products = [
       "Handwoven Kashmiri carpet inspired by Shah Abbas floral motifs.",
   },
   {
-    id: "29",
+    id: 29,
     name: "Teal Sapphire Tabriz Wool-Silk Carpet",
     price: 33199,
     category: "Handicrafts",
@@ -256,7 +256,7 @@ const products = [
       "Luxury wool-silk carpet with intricate Persian-inspired patterns.",
   },
   {
-    id: "30",
+    id: 30,
     name: "Sea Blue Mashhad Wool-Silk Carpet",
     price: 34199,
     category: "Handicrafts",
@@ -264,7 +264,7 @@ const products = [
     description: "Premium Mashhad-style carpet with fine detailing.",
   },
   {
-    id: "31",
+    id: 31,
     name: "Antique White Arak Carpet",
     price: 45199,
     category: "Handicrafts",
@@ -272,7 +272,7 @@ const products = [
     description: "Elegant antique-style carpet with soft neutral tones.",
   },
   {
-    id: "32",
+    id: 32,
     name: "Alhambra Green Mousel Carpet",
     price: 23199,
     category: "Handicrafts",
@@ -280,7 +280,7 @@ const products = [
     description: "Traditional Mousel carpet with rich green hues.",
   },
   {
-    id: "33",
+    id: 33,
     name: "Amberglow Ahar Carpet",
     price: 38500,
     category: "Handicrafts",
@@ -289,7 +289,7 @@ const products = [
       "A vibrant Ahar-style carpet showcasing Kashmiri craftsmanship.",
   },
   {
-    id: "34",
+    id: 34,
     name: "Angora Kerman Lavar Carpet",
     price: 43086,
     category: "Handicrafts",
@@ -297,7 +297,7 @@ const products = [
     description: "High-end carpet inspired by classic Kerman Lavar designs.",
   },
   {
-    id: "35",
+    id: 35,
     name: "Blueberry Qum Wool-Silk Carpet",
     price: 68000,
     category: "Handicrafts",
@@ -305,7 +305,7 @@ const products = [
     description: "Exquisite Qum carpet crafted in fine wool-silk blend.",
   },
   {
-    id: "36",
+    id: 36,
     name: "Cherry Red Wool-Silk Carpet",
     price: 21500,
     category: "Handicrafts",
@@ -313,7 +313,7 @@ const products = [
     description: "Rich cherry red carpet with elegant floral motifs.",
   },
   {
-    id: "37",
+    id: 37,
     name: "Lyons Blue Nain Carpet",
     price: 20000,
     category: "Handicrafts",
@@ -321,7 +321,7 @@ const products = [
     description: "Classic Nain-style carpet with refined detailing.",
   },
   {
-    id: "38",
+    id: 38,
     name: "Papier Mache Candle Holder",
     price: 450,
     category: "Handicrafts",
@@ -329,7 +329,7 @@ const products = [
     description: "Hand-painted Kashmiri papier mache candle holder.",
   },
   {
-    id: "39",
+    id: 39,
     name: "Papier Mache Coasters (Set)",
     price: 1300,
     category: "Handicrafts",
@@ -337,7 +337,7 @@ const products = [
     description: "Decorative papier mache coasters with floral designs.",
   },
   {
-    id: "40",
+    id: 40,
     name: "Papier Mache Decorative Vase",
     price: 1500,
     category: "Handicrafts",
@@ -345,7 +345,7 @@ const products = [
     description: "Handcrafted papier mache vase with intricate patterns.",
   },
   {
-    id: "41",
+    id: 41,
     name: "Handcrafted Elephant Figurine",
     price: 900,
     category: "Handicrafts",
@@ -353,7 +353,7 @@ const products = [
     description: "Artisan-made decorative elephant inspired by Kashmiri art.",
   },
   {
-    id: "42",
+    id: 42,
     name: "Floral Papier Mache Box",
     price: 1500,
     category: "Handicrafts",
@@ -361,7 +361,7 @@ const products = [
     description: "Hand-painted floral papier mache storage box.",
   },
   {
-    id: "43",
+    id: 43,
     name: "Traditional Handicraft Box",
     price: 1100,
     category: "Handicrafts",
@@ -369,7 +369,7 @@ const products = [
     description: "Multipurpose Kashmiri handicraft box with classic artwork.",
   },
   {
-    id: "44",
+    id: 44,
     name: "Papier Mache Jewellery Box",
     price: 1800,
     category: "Handicrafts",
@@ -377,7 +377,7 @@ const products = [
     description: "Elegant jewellery box handcrafted using papier mache art.",
   },
   {
-    id: "45",
+    id: 45,
     name: "Kashmiri Papier Mache Bowl",
     price: 1000,
     category: "Handicrafts",
@@ -385,7 +385,7 @@ const products = [
     description: "Decorative papier mache bowl with traditional motifs.",
   },
   {
-    id: "46",
+    id: 46,
     name: "Papier Mache Pen Holder",
     price: 900,
     category: "Handicrafts",

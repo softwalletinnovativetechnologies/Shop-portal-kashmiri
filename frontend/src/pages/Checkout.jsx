@@ -1,27 +1,29 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getCart, clearCart } from "../utils/cart";
 import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
 import { toast } from "react-hot-toast";
+import "react-phone-input-2/lib/style.css";
 import "./Checkout.css";
 
 export default function Checkout() {
   const navigate = useNavigate();
   const cart = getCart();
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  useEffect(() => {
+    if (!user) {
+      toast.error("Login required");
+      navigate("/login");
+    }
+  }, []);
 
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
-    0
+    0,
   );
 
-  /* ================= ADDRESS STATE ================= */
-  const [addresses, setAddresses] = useState([]);
-  const [selectedAddress, setSelectedAddress] = useState(null);
-  const [showForm, setShowForm] = useState(false);
-  const [editId, setEditId] = useState(null);
-
-  const [form, setForm] = useState({
+  const [address, setAddress] = useState({
     name: "",
     phone: "",
     address: "",
@@ -29,221 +31,122 @@ export default function Checkout() {
     pincode: "",
   });
 
-  /* ================= PAYMENT ================= */
   const [payment, setPayment] = useState("COD");
 
-  /* ================= SAVE / UPDATE ADDRESS ================= */
-  const saveAddress = () => {
-    if (!form.name || !form.phone || !form.address) {
-      toast.error("Please fill all required fields");
-      return;
-    }
-
-    if (form.phone.length < 10) {
-      toast.error("Enter a valid phone number");
-      return;
-    }
-
-    if (editId) {
-      setAddresses(
-        addresses.map((a) => (a.id === editId ? { ...form, id: editId } : a))
-      );
-      toast.success("Address updated");
-    } else {
-      setAddresses([...addresses, { ...form, id: Date.now() }]);
-      toast.success("Address saved");
-    }
-
-    setShowForm(false);
-    setEditId(null);
-    setForm({
-      name: "",
-      phone: "",
-      address: "",
-      city: "",
-      pincode: "",
+  // 💾 Save order
+  const saveOrder = async (status, razorpay = {}) => {
+    await fetch("http://localhost:5001/api/orders", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        user: user._id,
+        items: cart,
+        address,
+        paymentMethod: payment,
+        paymentStatus: status,
+        totalAmount: subtotal,
+        razorpay,
+      }),
     });
   };
 
-  const editAddress = (addr) => {
-    setForm(addr);
-    setEditId(addr.id);
-    setShowForm(true);
-  };
-
-  const deleteAddress = (id) => {
-    setAddresses(addresses.filter((a) => a.id !== id));
-    if (selectedAddress === id) setSelectedAddress(null);
-    toast.success("Address deleted");
-  };
-
-  /* ================= PLACE ORDER ================= */
+  // 🛒 PLACE ORDER
   const placeOrder = async () => {
-    if (!selectedAddress) {
-      alert("Please select an address");
+    if (!address.name || !address.phone || !address.address) {
+      toast.error("Fill address");
       return;
     }
 
+    // COD
+    if (payment === "COD") {
+      await saveOrder("PENDING");
+      clearCart();
+      toast.success("Order placed");
+      navigate("/order-success");
+      return;
+    }
+
+    // ONLINE
     try {
-      await fetch("http://localhost:5000/api/orders", {
+      const res = await fetch("http://localhost:5001/api/orders/razorpay", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          items: cart,
-          address: addresses.find((a) => a.id === selectedAddress),
-          paymentMethod: payment,
-          totalAmount: subtotal,
-        }),
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: subtotal }),
       });
 
-      clearCart();
-      navigate("/");
-    } catch (error) {
-      console.error("Order failed", error);
+      const order = await res.json();
+
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: "INR",
+        name: "Kashmiri Gifts",
+        order_id: order.id,
+        handler: async (response) => {
+          await saveOrder("PAID", response);
+          clearCart(); // ✅ FIXED
+          toast.success("Payment successful");
+          navigate("/order-success");
+        },
+      };
+
+      new window.Razorpay(options).open();
+    } catch {
+      toast.error("Payment failed");
     }
   };
 
   return (
     <div className="checkout-page">
-      <h1 className="checkout-title">Checkout</h1>
+      <h2>Checkout</h2>
 
-      <div className="checkout-grid">
-        {/* ================= ADDRESS ================= */}
-        <div className="checkout-card">
-          <h2>Delivery Address</h2>
+      <input
+        placeholder="Full Name"
+        onChange={(e) => setAddress({ ...address, name: e.target.value })}
+      />
 
-          {addresses.map((addr) => (
-            <div className="saved-address" key={addr.id}>
-              <label className="address-radio">
-                <input
-                  type="radio"
-                  checked={selectedAddress === addr.id}
-                  onChange={() => setSelectedAddress(addr.id)}
-                />
-                <div className="address-info">
-                  <strong>{addr.name}</strong>
-                  <p>
-                    {addr.address}, {addr.city} – {addr.pincode}
-                  </p>
-                  <span>{addr.phone}</span>
-                </div>
-              </label>
+      <PhoneInput
+        country="in"
+        value={address.phone}
+        onChange={(v) => setAddress({ ...address, phone: v })}
+      />
 
-              <div className="address-actions">
-                <button onClick={() => editAddress(addr)}>Edit</button>
-                <button onClick={() => deleteAddress(addr.id)}>Delete</button>
-              </div>
-            </div>
-          ))}
+      <textarea
+        placeholder="Full Address"
+        onChange={(e) => setAddress({ ...address, address: e.target.value })}
+      />
 
-          {!showForm && (
-            <button className="link-btn" onClick={() => setShowForm(true)}>
-              + Add New Address
-            </button>
-          )}
+      <input
+        placeholder="City"
+        onChange={(e) => setAddress({ ...address, city: e.target.value })}
+      />
 
-          {showForm && (
-            <div className="address-form">
-              <input
-                placeholder="Full Name"
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
+      <input
+        placeholder="Pincode"
+        onChange={(e) => setAddress({ ...address, pincode: e.target.value })}
+      />
 
-              {/* PHONE INPUT */}
-              <PhoneInput
-                country={"in"}
-                value={form.phone}
-                onChange={(value) => setForm({ ...form, phone: value })}
-                inputClass="phone-input"
-                containerClass="phone-container"
-                countryCodeEditable={false}
-              />
+      <label>
+        <input
+          type="radio"
+          checked={payment === "COD"}
+          onChange={() => setPayment("COD")}
+        />
+        Cash on Delivery
+      </label>
 
-              <textarea
-                placeholder="Full Address"
-                value={form.address}
-                onChange={(e) => setForm({ ...form, address: e.target.value })}
-              />
+      <label>
+        <input
+          type="radio"
+          checked={payment === "ONLINE"}
+          onChange={() => setPayment("ONLINE")}
+        />
+        Online Payment (Razorpay)
+      </label>
 
-              <input
-                placeholder="City"
-                value={form.city}
-                onChange={(e) => setForm({ ...form, city: e.target.value })}
-              />
+      <h3>Total ₹{subtotal}</h3>
 
-              <input
-                placeholder="Pincode"
-                value={form.pincode}
-                onChange={(e) => setForm({ ...form, pincode: e.target.value })}
-              />
-
-              <button className="btn-primary" onClick={saveAddress}>
-                {editId ? "Update Address" : "Save Address"}
-              </button>
-            </div>
-          )}
-        </div>
-
-        {/* ================= PAYMENT ================= */}
-        <div className="checkout-card">
-          <h2>Payment Method</h2>
-
-          <label className="payment-option">
-            <input
-              type="radio"
-              checked={payment === "COD"}
-              onChange={() => setPayment("COD")}
-            />
-            <span>Cash on Delivery</span>
-          </label>
-
-          <label className="payment-option">
-            <input
-              type="radio"
-              checked={payment === "UPI"}
-              onChange={() => setPayment("UPI")}
-            />
-            <span>UPI</span>
-          </label>
-
-          <label className="payment-option">
-            <input
-              type="radio"
-              checked={payment === "CARD"}
-              onChange={() => setPayment("CARD")}
-            />
-            <span>Credit / Debit Card</span>
-          </label>
-        </div>
-
-        {/* ================= SUMMARY ================= */}
-        <div className="checkout-card summary">
-          <h2>Order Summary</h2>
-
-          <p>
-            <span>Subtotal</span>
-            <span>₹{subtotal}</span>
-          </p>
-          <p>
-            <span>Shipping</span>
-            <span>FREE</span>
-          </p>
-
-          <hr />
-
-          <p className="total">
-            <span>Total</span>
-            <span>₹{subtotal}</span>
-          </p>
-
-          <button className="btn-primary" onClick={placeOrder}>
-            Place Order
-          </button>
-        </div>
-      </div>
+      <button onClick={placeOrder}>Place Order</button>
     </div>
   );
 }

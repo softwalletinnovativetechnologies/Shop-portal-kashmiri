@@ -1,40 +1,82 @@
-import { FcGoogle } from "react-icons/fc";
-import { useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import "./Auth.css";
 
 export default function Register() {
   const navigate = useNavigate();
 
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const submit = async (e) => {
+    e.preventDefault();
+
+    if (!name || !email || !password) {
+      toast.error("Please fill all fields");
+      return;
+    }
+
+    try {
+      const res = await fetch("http://localhost:5001/api/auth/signup", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Signup failed");
+        return;
+      }
+
+      localStorage.setItem("user", JSON.stringify(data));
+      toast.success("Signup successful 🎉");
+      navigate("/checkout");
+    } catch {
+      toast.error("Signup failed");
+    }
+  };
+
   return (
-    <div className="auth-wrapper">
-      <div className="auth-card slide-right">
-        <div className="auth-tabs">
-          <span onClick={() => navigate("/login")}>Sign In</span>
-          <span className="active">Sign Up</span>
-        </div>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h2>Create your account</h2>
+        <p className="auth-subtitle">
+          Join <strong>Kashmiri Gifts</strong> today
+        </p>
 
-        <h2>Create Account</h2>
+        <form onSubmit={submit}>
+          <input
+            placeholder="Full Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
 
-        <input type="text" placeholder="Full Name" />
+          <input
+            type="email"
+            placeholder="Email address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
 
-        <input type="email" placeholder="Email Address" />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-        <input type="tel" placeholder="Mobile Number" maxLength="10" />
+          <button type="submit" className="auth-btn">
+            Create Account
+          </button>
+        </form>
 
-        <div className="otp-row">
-          <input type="text" placeholder="Enter OTP" className="otp-input" />
-
-          <button className="otp-btn">Send OTP</button>
-        </div>
-
-        <input type="password" placeholder="Password" />
-
-        <button className="primary-btn">Sign Up</button>
-
-        <button className="google-btn">
-          <FcGoogle size={22} />
-          <span>Sign up with Google</span>
-        </button>
+        <p className="auth-footer">
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   );

@@ -1,17 +1,21 @@
 import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import Breadcrumbs from "../components/Breadcrumbs";
+import { fetchProducts } from "../api/api";
 import "./Shop.css";
 
 const PRODUCTS_PER_PAGE = 9;
 
 export default function Shop() {
-    const [products, setProducts] = useState([]);
-useEffect(() => {
-    fetch("http://localhost:5001/api/products")
-      .then((res) => res.json())
-      .then((data) => setProducts(data));
-      .catch((err) => console.error(err));
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    fetchProducts()
+      .then((data) => {
+        console.log("SHOP PRODUCTS:", data);
+        setProducts(Array.isArray(data) ? data : []);
+      })
+      .catch(() => setProducts([]));
   }, []);
   const [category, setCategory] = useState("All");
   const [minPrice, setMinPrice] = useState(0);
@@ -55,7 +59,7 @@ useEffect(() => {
   const startIndex = (currentPage - 1) * PRODUCTS_PER_PAGE;
   const paginatedProducts = filteredProducts.slice(
     startIndex,
-    startIndex + PRODUCTS_PER_PAGE
+    startIndex + PRODUCTS_PER_PAGE,
   );
 
   return (

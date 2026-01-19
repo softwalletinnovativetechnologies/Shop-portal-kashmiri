@@ -87,7 +87,7 @@ export default function Navbar() {
             {cartCount > 0 && <span className="badge">{cartCount}</span>}
           </NavLink>
 
-          <NavLink to="/login" className="login-btn">
+          <NavLink to="/login" className="login-btn" onClick={() => navigate}>
             Login
           </NavLink>
 

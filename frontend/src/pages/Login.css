@@ -1,81 +1,77 @@
-/* FULL PAGE BACKGROUND */
 .login-page {
   min-height: 100vh;
-  width: 100vw;
-
-  background-image: url("/images/login-bg.jpg");
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-
-  display: flex;
-}
-
-/* DARK / BEIGE OVERLAY (image ko soft banane ke liye) */
-.login-overlay {
-  min-height: 100vh;
-  width: 100vw;
-
-  background: rgba(245, 235, 220, 0.85);
-
   display: flex;
   justify-content: center;
   align-items: center;
+  background: linear-gradient(
+    rgba(0, 0, 0, 0.35),
+    rgba(0, 0, 0, 0.35)
+  ),
+ center / cover no-repeat;
 }
 
-/* LOGIN CARD */
 .login-card {
-  width: 420px;
-  background: #fffaf3;
-  border-radius: 28px;
-  padding: 32px;
-
-  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
-
-  animation: slideUp 0.7s ease;
-}
-
-/* TEXT */
-.welcome-text {
+  background: #fff;
+  width: 100%;
+  max-width: 380px;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
   text-align: center;
-  font-size: 28px;
-  margin-bottom: 20px;
-  color: #6b1d1d; /* mehroon */
 }
 
-/* INPUTS */
+.login-card h2 {
+  margin-bottom: 5px;
+  color: #2f4f3e;
+}
+
+.login-subtitle {
+  font-size: 14px;
+  color: #666;
+  margin-bottom: 25px;
+}
+
 .login-card input {
   width: 100%;
-  padding: 14px;
-  margin-bottom: 16px;
-
-  border-radius: 12px;
-  border: 1px solid #d8bfa7;
-  background: #fffdf9;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  font-size: 14px;
 }
 
-/* BUTTON */
+.login-card input:focus {
+  outline: none;
+  border-color: #3e5c4b;
+}
+
 .login-btn {
   width: 100%;
-  padding: 14px;
-
-  background: #7b2d2d;
-  color: white;
+  padding: 12px;
+  background: #3e5c4b;
+  color: #fff;
   border: none;
-  border-radius: 14px;
-
-  font-size: 16px;
+  border-radius: 6px;
+  font-size: 15px;
   cursor: pointer;
+  font-weight: 500;
 }
 
-/* ANIMATION */
-@keyframes slideUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+.login-btn:hover {
+  background: #2f4f3e;
+}
+
+.register-text {
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.register-text a {
+  color: #3e5c4b;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.register-text a:hover {
+  text-decoration: underline;
 }

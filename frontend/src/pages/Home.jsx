@@ -21,7 +21,7 @@ export default function Home() {
           }
         });
       },
-      { threshold: 0.2 }
+      { threshold: 0.2 },
     );
 
     reveals.forEach((el) => revealObserver.observe(el));
@@ -37,7 +37,7 @@ export default function Home() {
           typingEl.classList.add("type-animate");
         }
       },
-      { threshold: 0.6 }
+      { threshold: 0.6 },
     );
 
     if (typingEl) typingObserver.observe(typingEl);
@@ -204,7 +204,7 @@ export default function Home() {
 
             <div className="footer-socials">
               <a
-                href="https://wa.me/91XXXXXXXXXX"
+                href="https://wa.me/919596393658"
                 target="_blank"
                 rel="noreferrer"
               >

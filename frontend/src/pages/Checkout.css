@@ -1,8 +1,5 @@
-/* ================= PAGE ================= */
 .checkout-page {
-  max-width: 1200px;
-  margin: auto;
-  padding: 20px;
+  padding: 40px;
 }
 
 .checkout-title {
@@ -10,125 +7,81 @@
   margin-bottom: 20px;
 }
 
-/* ================= GRID ================= */
-.checkout-grid {
+.checkout-layout {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 24px;
+  grid-template-columns: 1fr 1fr;
+  gap: 30px;
 }
 
-/* ================= CARD ================= */
 .checkout-card {
-  background: #fff7ef;
-  border-radius: 20px;
+  background: #ffffffcc;
   padding: 20px;
+  border-radius: 12px;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.08);
 }
 
-.checkout-card h2 {
-  margin-bottom: 16px;
+.checkout-card h3 {
+  margin-bottom: 15px;
 }
 
-/* ================= ADDRESS ================= */
-.saved-address {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-.saved-address label {
+.address-box {
   display: flex;
   gap: 10px;
+  border: 1px solid #ddd;
+  padding: 12px;
+  border-radius: 8px;
+  margin-bottom: 10px;
   cursor: pointer;
 }
 
-.address-actions button {
-  background: none;
+.address-box input {
+  margin-top: 5px;
+}
+
+.address-form input,
+.address-form textarea {
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+}
+
+.address-form textarea {
+  resize: none;
+  height: 80px;
+}
+
+.row {
+  display: flex;
+  gap: 10px;
+}
+
+.payment-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  background: #3e5c4b;
+  color: #fff;
   border: none;
-  color: #2f5d50;
+  padding: 12px;
+  border-radius: 8px;
   cursor: pointer;
-  font-size: 14px;
+}
+
+.btn-primary.full {
+  width: 100%;
+  margin-top: 15px;
 }
 
 .link-btn {
   background: none;
   border: none;
-  color: #2f5d50;
+  color: #3e5c4b;
   cursor: pointer;
-  font-weight: 600;
   margin-top: 10px;
-}
-
-/* ================= ADDRESS FORM ================= */
-.address-form input,
-.address-form textarea,
-.address-form select {
-  width: 100%;
-  padding: 12px;
-  margin-bottom: 12px;
-  border-radius: 12px;
-  border: 1px solid #ccc;
-}
-
-.phone-row {
-  display: flex;
-  gap: 10px;
-}
-
-.phone-row select {
-  width: 90px;
-}
-
-/* ================= PAYMENT ================= */
-.payment-option {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 14px;
-}
-
-/* ================= SUMMARY ================= */
-.summary p {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-}
-
-.summary .total {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-.checkout-card .btn-primary {
-  width: 100%;
-  margin-top: 16px;
-}
-
-/* ================= MOBILE FIX ================= */
-@media (max-width: 768px) {
-  .checkout-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .checkout-title {
-    text-align: center;
-  }
-
-  .checkout-card {
-    padding: 16px;
-  }
-
-  .saved-address {
-    flex-direction: column;
-  }
-
-  .address-actions {
-    display: flex;
-    gap: 12px;
-  }
-}
-
-/* ================= SAFETY ================= */
-body {
-  overflow-x: hidden;
 }

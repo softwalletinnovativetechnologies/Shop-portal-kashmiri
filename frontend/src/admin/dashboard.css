@@ -1,0 +1,91 @@
+.dashboard {
+  animation: fadeIn 0.5s ease;
+}
+
+.dashboard h1 {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 30px;
+  color: #111827;
+}
+
+/* ===== GRID ===== */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+/* ===== CARD ===== */
+.stat-card {
+  background: #ffffff;
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stat-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    120deg,
+    rgba(31, 77, 58, 0.12),
+    transparent
+  );
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.stat-card:hover::after {
+  opacity: 1;
+}
+
+.stat-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 45px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== TEXT ===== */
+.stat-card p {
+  font-size: 14px;
+  color: #6b7280;
+  margin-bottom: 12px;
+}
+
+.stat-card h2 {
+  font-size: 34px;
+  color: #1f4d3a;
+  font-weight: 700;
+}
+
+/* ===== HIGHLIGHT ===== */
+.stat-card.highlight {
+  background: linear-gradient(135deg, #1f4d3a, #143528);
+}
+
+.stat-card.highlight p,
+.stat-card.highlight h2 {
+  color: #ffffff;
+}
+
+/* ===== LOADING ===== */
+.dashboard-loading {
+  font-size: 18px;
+  padding: 40px;
+}
+
+/* ===== ANIMATION ===== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

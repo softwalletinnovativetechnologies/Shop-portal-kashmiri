@@ -155,3 +155,65 @@
   background: #dc3545;
   color: white;
 }
+/* ================= BUY AGAIN BUTTON ================= */
+
+.buy-again-btn {
+  background: linear-gradient(135deg, #2e7d32, #43a047);
+  color: #fff;
+  border: none;
+  padding: 10px 18px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+  white-space: nowrap;
+}
+
+.buy-again-btn:hover {
+  background: linear-gradient(135deg, #1b5e20, #2e7d32);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.buy-again-btn:active {
+  transform: scale(0.96);
+}
+
+.buy-again-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+.order-timeline {
+  margin-top: 10px;
+  border-left: 3px solid #4caf50;
+  padding-left: 12px;
+}
+
+.timeline-step {
+  margin-bottom: 10px;
+  position: relative;
+}
+
+.timeline-step::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background: #4caf50;
+  border-radius: 50%;
+  position: absolute;
+  left: -18px;
+  top: 4px;
+}
+
+.timeline-step span {
+  font-weight: 600;
+  color: #2e7d32;
+}
+
+.timeline-step small {
+  display: block;
+  color: #666;
+  font-size: 12px;
+}

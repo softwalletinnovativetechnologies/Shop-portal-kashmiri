@@ -20,7 +20,7 @@ body {
 /* SIDEBAR */
 .sidebar {
   width: 260px;
-  background: linear-gradient(180deg, #1f4d3a, #143528);
+  background: linear-gradient(180deg, #1f4d3a, #4e6c91);
   color: #fff;
   padding: 24px 18px;
   flex-shrink: 0;
@@ -46,8 +46,8 @@ body {
 }
 
 .sidebar a.active {
-  background: #ffffff;
-  color: #1f4d3a;
+  background: #ccb0b0;
+  color: #040606;
   font-weight: 600;
 }
 

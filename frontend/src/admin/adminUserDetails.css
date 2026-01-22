@@ -1,0 +1,31 @@
+.admin-user-page {
+  max-width: 1000px;
+  margin: auto;
+  padding: 30px;
+}
+
+.card {
+  background: #fff;
+  padding: 22px;
+  border-radius: 16px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.08);
+  margin-bottom: 24px;
+}
+
+.address-box,
+.order-box,
+.query-box {
+  padding: 14px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  margin-top: 12px;
+}
+
+.reply {
+  color: #1f4d3a;
+}
+
+.loading {
+  padding: 40px;
+  font-size: 18px;
+}

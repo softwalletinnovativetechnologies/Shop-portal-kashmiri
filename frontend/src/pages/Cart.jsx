@@ -11,10 +11,7 @@ export default function Cart() {
   }, []);
 
   /* ================= HELPERS ================= */
-  const refreshCart = () => {
-    setCart(getCart());
-    window.dispatchEvent(new Event("cartUpdated"));
-  };
+  const refreshCart = () => setCart(getCart());
 
   const increaseQty = (id, currentQty) => {
     const newQty = currentQty + 1;
@@ -38,7 +35,7 @@ export default function Cart() {
 
   const subtotal = cart.reduce(
     (sum, item) => sum + Number(item.price) * Number(item.quantity),
-    0
+    0,
   );
 
   /* ================= EMPTY CART ================= */

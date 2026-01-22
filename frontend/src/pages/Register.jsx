@@ -5,7 +5,6 @@ import "./Auth.css";
 
 export default function Register() {
   const navigate = useNavigate();
-
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +13,7 @@ export default function Register() {
     e.preventDefault();
 
     if (!name || !email || !password) {
-      toast.error("Please fill all fields");
+      toast.error("All fields required");
       return;
     }
 
@@ -32,46 +31,38 @@ export default function Register() {
         return;
       }
 
-      localStorage.setItem("user", JSON.stringify(data));
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+
+      window.dispatchEvent(new Event("userChanged"));
+
       toast.success("Signup successful 🎉");
-      navigate("/checkout");
+
+      // ✅ redirect
+      window.location.href = "/account";
     } catch {
-      toast.error("Signup failed");
+      toast.error("Signup error");
     }
   };
 
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h2>Create your account</h2>
-        <p className="auth-subtitle">
-          Join <strong>Kashmiri Gifts</strong> today
-        </p>
+        <h2>Create Account</h2>
 
         <form onSubmit={submit}>
+          <input placeholder="Name" onChange={(e) => setName(e.target.value)} />
           <input
-            placeholder="Full Name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-          />
-
-          <input
-            type="email"
-            placeholder="Email address"
-            value={email}
+            placeholder="Email"
             onChange={(e) => setEmail(e.target.value)}
           />
-
           <input
             type="password"
             placeholder="Password"
-            value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button type="submit" className="auth-btn">
-            Create Account
-          </button>
+          <button className="auth-btn">Signup</button>
         </form>
 
         <p className="auth-footer">

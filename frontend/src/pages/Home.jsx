@@ -1,5 +1,6 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import "./Home.css";
 
 export default function Home() {
@@ -7,33 +8,58 @@ export default function Home() {
   const footerRef = useRef(null);
   const navigate = useNavigate();
 
+  const storedUser = JSON.parse(localStorage.getItem("user"));
+  const [form, setForm] = useState({
+    name: storedUser?.name || "",
+    email: storedUser?.email || "",
+    phone: storedUser?.phone || "",
+    message: "",
+  });
+
+  const submitQuery = async () => {
+    if (!form.name || !form.email || !form.message) {
+      toast.error("Please fill required fields");
+      return;
+    }
+
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+
+    try {
+      await fetch("http://localhost:5001/api/queries", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          ...form,
+          user: storedUser?._id || null, // 🔥 MAIN FIX
+        }),
+      });
+
+      toast.success("Query sent successfully");
+      setForm({ name: "", email: "", phone: "", message: "" });
+    } catch {
+      toast.error("Something went wrong");
+    }
+  };
+
   useEffect(() => {
-    /* ================= SCROLL REVEAL ================= */
     const reveals = document.querySelectorAll(".reveal");
 
     const revealObserver = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-          } else {
-            entry.target.classList.remove("active"); // 🔥 repeat animation
-          }
+          entry.target.classList.toggle("active", entry.isIntersecting);
         });
       },
       { threshold: 0.2 },
     );
-
     reveals.forEach((el) => revealObserver.observe(el));
 
-    /* ================= TYPING TEXT (REPEAT ON SCROLL) ================= */
     const typingEl = typingRef.current;
-
     const typingObserver = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting && typingEl) {
           typingEl.classList.remove("type-animate");
-          void typingEl.offsetWidth; // force reflow
+          void typingEl.offsetWidth;
           typingEl.classList.add("type-animate");
         }
       },
@@ -177,13 +203,46 @@ export default function Home() {
             <p>Carefully curated premium handcrafted items.</p>
           </div>
         </div>
-
-        <div className="subscribe reveal delay-3">
-          <input type="email" placeholder="Enter your email address" />
-          <button className="btn-primary">Subscribe</button>
-        </div>
       </section>
 
+      {/* ================= QUERY FORM ================= */}
+      <section className="query-section reveal">
+        <h2 className="section-title">Have Any Questions?</h2>
+        <p className="query-sub">Our team will contact you within 24 hours</p>
+
+        <div className="query-card">
+          <input
+            placeholder="Full Name"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+
+          <input
+            placeholder="Email"
+            value={form.email}
+            onChange={(e) => setForm({ ...form, email: e.target.value })}
+          />
+
+          <div className="phone-row">
+            <input value="+91" disabled />
+            <input
+              placeholder="Mobile Number"
+              value={form.phone}
+              onChange={(e) => setForm({ ...form, phone: e.target.value })}
+            />
+          </div>
+
+          <textarea
+            placeholder="Write your query..."
+            value={form.message}
+            onChange={(e) => setForm({ ...form, message: e.target.value })}
+          />
+
+          <button className="btn-primary" onClick={submitQuery}>
+            Send Query
+          </button>
+        </div>
+      </section>
       {/* ================= FOOTER ================= */}
       <footer className="footer" ref={footerRef} id="contact">
         <div className="footer-container">

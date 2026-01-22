@@ -18,7 +18,7 @@ export default function About() {
           }
         });
       },
-      { threshold: 0.15 }
+      { threshold: 0.15 },
     );
 
     elements.forEach((el) => observer.observe(el));
@@ -67,19 +67,6 @@ export default function About() {
 
         <div className="story-image reveal delay-2">
           <img src="/images/Our-Story.png" alt="Kashmir Craft" />
-        </div>
-      </section>
-
-      {/* SUBSCRIBE */}
-      <section className="about-subscribe reveal">
-        <h2 className="reveal delay-1">Subscribe to our Newsletter</h2>
-        <p className="reveal delay-2">
-          Get updates on new collections & offers
-        </p>
-
-        <div className="subscribe-box reveal delay-3">
-          <input type="email" placeholder="Enter your email address" />
-          <button>Subscribe</button>
         </div>
       </section>
     </div>

@@ -1,18 +1,25 @@
 import jwt from "jsonwebtoken";
+import User from "../models/User.js";
 
-export const protect = (req, res, next) => {
-  const auth = req.headers.authorization;
+export const authMiddleware = async (req, res, next) => {
+  const token = req.headers.authorization?.split(" ")[1];
 
-  if (!auth || !auth.startsWith("Bearer")) {
-    return res.status(401).json({ message: "Not authorized" });
+  if (!token) {
+    return res.status(401).json({ message: "No token" });
   }
 
   try {
-    const token = auth.split(" ")[1];
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.userId = decoded.id;
+
+    const user = await User.findById(decoded.id).select("email name");
+
+    if (!user) {
+      return res.status(401).json({ message: "User not found" });
+    }
+
+    req.user = user; // 🔥 NOW req.user.email EXISTS
     next();
-  } catch {
-    res.status(401).json({ message: "Invalid token" });
+  } catch (err) {
+    return res.status(401).json({ message: "Invalid token" });
   }
 };

@@ -13,9 +13,15 @@ export default function AdminProducts() {
   const [image, setImage] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/admin/products")
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:5001/api/admin/products", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
-      .then(setProducts);
+      .then((data) => setProducts(data))
+      .catch(() => setProducts([]));
   }, []);
 
   const submit = async (e) => {
@@ -47,35 +53,38 @@ export default function AdminProducts() {
 
       {/* ADD PRODUCT */}
       <form className="product-form" onSubmit={submit}>
-        <input
-          placeholder="Name"
-          onChange={(e) => setForm({ ...form, name: e.target.value })}
-        />
-        <input
-          placeholder="Price"
-          onChange={(e) => setForm({ ...form, price: e.target.value })}
-        />
-        <input
-          placeholder="Stock"
-          onChange={(e) => setForm({ ...form, stock: e.target.value })}
-        />
-        <input
-          placeholder="Category"
-          onChange={(e) => setForm({ ...form, category: e.target.value })}
-        />
-        <textarea
-          placeholder="Description"
-          onChange={(e) => setForm({ ...form, description: e.target.value })}
-        />
-        <input type="file" onChange={(e) => setImage(e.target.files[0])} />
-        <button>Add Product</button>
+        <div className="form-row-three">
+          <input
+            placeholder="Name"
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+          <input
+            placeholder="Price"
+            onChange={(e) => setForm({ ...form, price: e.target.value })}
+          />
+          <input
+            placeholder="Stock"
+            onChange={(e) => setForm({ ...form, stock: e.target.value })}
+          />
+        </div>
+        <div className="form-row-two">
+          <input
+            placeholder="Category"
+            onChange={(e) => setForm({ ...form, category: e.target.value })}
+          />
+          <textarea
+            placeholder="Description"
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+          />
+          <input type="file" onChange={(e) => setImage(e.target.files[0])} />
+        </div>
+        <button type="">Add Product</button>
       </form>
 
       {/* PRODUCT GRID */}
       <div className="grid">
         {products.map((p) => (
           <div className="card" key={p._id}>
-            <img src={`http://localhost:5001${p.image}`} />
             <h3>{p.name}</h3>
             <p>₹{p.price}</p>
             <button className="delete" onClick={() => remove(p._id)}>

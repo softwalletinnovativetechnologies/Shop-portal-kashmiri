@@ -1,63 +1,51 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-hot-toast";
 import "./adminUsers.css";
 
 export default function AdminUsers() {
   const [users, setUsers] = useState([]);
+  const navigate = useNavigate();
 
-  const load = () =>
-    fetch("http://localhost:5001/api/admin/users")
-      .then((res) => res.json())
-      .then(setUsers);
+  useEffect(() => {
+    const token = localStorage.getItem("token");
 
-  useEffect(load, []);
-
-  const toggleBlock = async (id) => {
-    await fetch(`http://localhost:5001/api/admin/users/${id}/block`, {
-      method: "PUT",
-    });
-    load();
-  };
-
-  const toggleRole = async (id) => {
-    await fetch(`http://localhost:5001/api/admin/users/${id}/role`, {
-      method: "PUT",
-    });
-    load();
-  };
+    fetch("http://localhost:5001/api/admin/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed");
+        return res.json();
+      })
+      .then((data) => setUsers(Array.isArray(data) ? data : []))
+      .catch(() => {
+        toast.error("Failed to load users");
+        setUsers([]);
+      });
+  }, []);
 
   return (
-    <div className="admin-users">
+    <div className="admin-page">
       <h1>Users</h1>
 
-      <div className="table">
-        <div className="thead">
+      <div className="admin-table">
+        <div className="table-head">
           <span>Name</span>
           <span>Email</span>
-          <span>Role</span>
-          <span>Status</span>
-          <span>Actions</span>
+          <span>Phone</span>
+          <span>Action</span>
         </div>
 
         {users.map((u) => (
-          <div className="row" key={u._id}>
+          <div className="table-row" key={u._id}>
             <span>{u.name}</span>
             <span>{u.email}</span>
-
-            <span className={`badge ${u.role}`}>{u.role}</span>
-
-            <span className={u.isBlocked ? "blocked" : "active"}>
-              {u.isBlocked ? "Blocked" : "Active"}
-            </span>
-
-            <div className="actions">
-              <button onClick={() => toggleRole(u._id)}>Change Role</button>
-              <button
-                className={u.isBlocked ? "green" : "red"}
-                onClick={() => toggleBlock(u._id)}
-              >
-                {u.isBlocked ? "Unblock" : "Block"}
-              </button>
-            </div>
+            <span>{u.phone || "-"}</span>
+            <button onClick={() => navigate(`/admin/users/${u._id}`)}>
+              View
+            </button>
           </div>
         ))}
       </div>

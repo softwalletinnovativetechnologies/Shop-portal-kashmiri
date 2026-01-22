@@ -6,7 +6,12 @@ export default function AdminSettings() {
   const [settings, setSettings] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/admin/settings")
+    const token = localStorage.getItem("token");
+    fetch("http://localhost:5001/api/admin/settings", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
       .then((res) => res.json())
       .then(setSettings)
       .catch(() => toast.error("Failed to load settings"));

@@ -12,12 +12,11 @@ export default function AdminLayout() {
           Dashboard
         </NavLink>
 
-        <NavLink to="/admin/adminOrders">Orders</NavLink>
+        <NavLink to="/admin/orders">Orders</NavLink>
 
-        <NavLink to="/admin/adminProducts">Products</NavLink>
+        <NavLink to="/admin/products">Products</NavLink>
 
-        <NavLink to="/admin/Users">Users</NavLink>
-
+        <NavLink to="/admin/users">Users</NavLink>
         <NavLink to="/admin/settings">Settings</NavLink>
       </aside>
 

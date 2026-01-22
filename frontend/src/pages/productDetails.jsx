@@ -8,6 +8,7 @@ import "./productDetails.css";
 export default function ProductDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
+
   const product = products.find((p) => p.id === Number(id));
 
   const [wish, setWish] = useState(product ? isInWishlist(product.id) : false);
@@ -20,6 +21,22 @@ export default function ProductDetails() {
       </div>
     );
   }
+
+  // ✅ BUY NOW FIX (IMPORTANT)
+  const handleBuyNow = () => {
+    const buyNowItem = [
+      {
+        id: product.id,
+        name: product.name,
+        price: Number(product.price),
+        image: product.image,
+        quantity: 1,
+      },
+    ];
+
+    localStorage.setItem("cart", JSON.stringify(buyNowItem));
+    navigate("/checkout");
+  };
 
   return (
     <div className="product-page">
@@ -36,10 +53,17 @@ export default function ProductDetails() {
           <p className="desc">{product.description}</p>
 
           <div className="actions">
+            {/* ✅ FIXED BUY NOW */}
+            <button className="btn-primary" onClick={handleBuyNow}>
+              Buy Now
+            </button>
+
+            {/* ADD TO CART */}
             <button className="btn-primary" onClick={() => addToCart(product)}>
               Add to Cart
             </button>
 
+            {/* WISHLIST */}
             <button
               className="btn-outline"
               onClick={() => {

@@ -1,21 +1,15 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import "./Login.css";
+import "./Auth.css";
 
 export default function Login() {
   const navigate = useNavigate();
-
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = async (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-
-    if (!email || !password) {
-      toast.error("Please fill all fields");
-      return;
-    }
 
     try {
       const res = await fetch("http://localhost:5001/api/auth/login", {
@@ -25,32 +19,44 @@ export default function Login() {
       });
 
       const data = await res.json();
+      console.log("LOGIN RESPONSE:", data);
 
       if (!res.ok) {
         toast.error(data.message || "Login failed");
         return;
       }
-
+      if (!data || !data.role) {
+        toast.error("Invalid login response");
+        return;
+      }
+      // 🔐 SAFE TOKEN HANDLING
+      localStorage.setItem("token", data.token || "logged_in");
       localStorage.setItem("user", JSON.stringify(data));
-      toast.success("Login successful 🎉");
-      navigate("/checkout");
+
+      window.dispatchEvent(new Event("userChanged"));
+
+      toast.success("Login successful");
+
+      if (data.role === "admin") {
+        navigate("/admin", { replace: true });
+      } else {
+        navigate("/account", { replace: true });
+      }
     } catch (err) {
-      toast.error("Something went wrong");
+      console.error(err);
+      toast.error("Server error");
     }
   };
 
   return (
-    <div className="login-page">
-      <div className="login-card">
-        <h2>Login to your account</h2>
-        <p className="login-subtitle">
-          Welcome back to <strong>Kashmiri Gifts</strong>
-        </p>
+    <div className="auth-page">
+      <div className="auth-card">
+        <h2>Login</h2>
 
-        <form onSubmit={handleLogin}>
+        <form onSubmit={submit}>
           <input
             type="email"
-            placeholder="Email address"
+            placeholder="Email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -62,13 +68,13 @@ export default function Login() {
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <button type="submit" className="login-btn">
+          <button type="submit" className="auth-btn">
             Login
           </button>
         </form>
 
-        <p className="register-text">
-          Don’t have an account? <Link to="/register">Create one</Link>
+        <p className="auth-footer">
+          New user? <Link to="/register">Create account</Link>
         </p>
       </div>
     </div>

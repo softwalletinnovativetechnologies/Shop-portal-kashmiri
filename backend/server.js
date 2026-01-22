@@ -1,5 +1,5 @@
 import dotenv from "dotenv";
-dotenv.config();
+dotenv.config({ path: "./.env" });
 
 import express from "express";
 import mongoose from "mongoose";
@@ -7,38 +7,71 @@ import cors from "cors";
 
 const app = express();
 
-app.use(cors());
-app.use(express.json());
+/* ================= CORE MIDDLEWARE ================= */
+app.use(
+  cors({
+    origin: "http://localhost:5173",
+    credentials: true,
+  }),
+);
 
-// 🔎 ENV VERIFY (TEMPORARY)
+/* 🔐 BODY PARSERS (IMPORTANT FIX) */
+app.use(express.json({ limit: "10kb" }));
+app.use(express.urlencoded({ extended: true })); // ✅ REQUIRED
 
-// ROUTES
+/* ================= ROUTES ================= */
+
+/* AUDIT LOGS */
+import adminAuditRoutes from "./routes/adminAuditLogs.js";
+
+/* USER */
 import productRoutes from "./routes/productRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 import authRoutes from "./routes/authRoutes.js";
-import adminRoutes from "./routes/adminRoutes.js";
+import userRoutes from "./routes/userRoutes.js";
+import paymentRoutes from "./routes/paymentRoutes.js";
+import contactRoutes from "./routes/contactRoutes.js";
+import imageRoutes from "./routes/imageRoutes.js";
+
+/* ADMIN */
+import adminRoutes from "./routes/admin.routes.js";
 import adminOrders from "./routes/adminOrders.js";
 import adminProducts from "./routes/adminProducts.js";
-import adminUsers from "./routes/adminUsers.js";
+import adminUserRoutes from "./routes/adminUsers.js";
+import adminQueryRoutes from "./routes/adminQueryRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
 
+/* ================= PUBLIC ROUTES ================= */
 app.use("/api/products", productRoutes);
 app.use("/api/orders", orderRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/users", userRoutes);
+app.use("/api/payment", paymentRoutes);
+app.use("/api/contact", contactRoutes);
+
+/* ================= ADMIN ROUTES ================= */
+app.use("/api/admin/audit-logs", adminAuditRoutes);
 app.use("/api/admin", adminRoutes);
 app.use("/api/admin/orders", adminOrders);
-app.use("/uploads", express.static("uploads"));
 app.use("/api/admin/products", adminProducts);
-app.use("/api/admin/users", adminUsers);
 app.use("/api/admin/settings", settingsRoutes);
+app.use("/api/admin/users", adminUserRoutes);
+app.use("/api/admin/queries", adminQueryRoutes);
 
-// DB CONNECT
+app.use("/api/images", imageRoutes);
+
+/* ================= STATIC ================= */
+app.use("/uploads", express.static("uploads"));
+
+/* ================= DB CONNECT ================= */
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
     console.log("✅ MongoDB Connected");
-    app.listen(process.env.PORT, () =>
-      console.log(`✅ Server running on ${process.env.PORT}`),
-    );
+    app.listen(process.env.PORT, () => {
+      console.log(`✅ Server running on port ${process.env.PORT}`);
+    });
   })
-  .catch((err) => console.error(err));
+  .catch((err) => {
+    console.error("❌ MongoDB connection failed:", err);
+  });

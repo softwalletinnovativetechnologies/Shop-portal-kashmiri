@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { toast } from "react-hot-toast";
 import "./adminOrders.css";
 
 export default function AdminOrders() {
@@ -6,13 +7,34 @@ export default function AdminOrders() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/admin/orders")
-      .then((res) => res.json())
-      .then((data) => {
-        setOrders(data);
+    const loadOrders = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const res = await fetch("http://localhost:5001/api/admin/orders", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (!res.ok) {
+          throw new Error("Failed to fetch orders");
+        }
+
+        const data = await res.json();
+        setOrders(Array.isArray(data) ? data : []);
+      } catch (err) {
+        console.error(err);
+        toast.error("Failed to load orders");
+      } finally {
         setLoading(false);
-      });
+      }
+    };
+
+    loadOrders();
   }, []);
+
+  if (loading) return <p className="loading">Loading Orders...</p>;
 
   const updateStatus = async (id, status) => {
     await fetch(`http://localhost:5001/api/admin/orders/${id}/status`, {
@@ -25,8 +47,6 @@ export default function AdminOrders() {
       prev.map((o) => (o._id === id ? { ...o, orderStatus: status } : o)),
     );
   };
-
-  if (loading) return <p className="loading">Loading Orders...</p>;
 
   return (
     <div className="admin-orders">

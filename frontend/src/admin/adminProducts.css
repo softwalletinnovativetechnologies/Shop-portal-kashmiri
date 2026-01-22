@@ -1,25 +1,70 @@
 .admin-products {
-  animation: fade 0.4s ease;
+  padding: 32px;
 }
 
 .product-form {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  background: white;
-  padding: 22px;
+  background: #ffffff;
   border-radius: 16px;
-  margin-bottom: 32px;
-  box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+  padding: 28px;
+  margin: 10px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  max-width: 900px;
+}
+
+.form-row {
+  display: grid;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.form-row.three {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.form-row.two {
+  grid-template-columns: 2fr 1fr;
+}
+
+.product-form input,
+.product-form textarea {
+  padding: 12px 14px;
+  border-radius: 10px;
+  border: 1px solid #dcdcdc;
+  font-size: 15px;
+  width: 100%;
+  outline: none;
 }
 
 .product-form textarea {
-  grid-column: span 3;
+  resize: none;
+}
+
+.product-form input:focus,
+.product-form textarea:focus {
+  border-color: #184d3a;
+}
+
+.product-form input[type="file"] {
+  padding: 9px;
 }
 
 .product-form button {
-  grid-column: span 3;
+  background: #184d3a;
+  color: white;
+  padding: 14px;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  cursor: pointer;
+  width: 220px;
+  transition: 0.3s ease;
 }
+
+.product-form button:hover {
+  background: #0f3b2c;
+  transform: translateY(-1px);
+}
+
 
 .grid {
   display: grid;
@@ -30,6 +75,7 @@
 .card {
   background: white;
   border-radius: 16px;
+  margin-top: 8px;
   padding: 16px;
   text-align: center;
   box-shadow: 0 8px 24px rgba(0,0,0,0.08);
@@ -52,8 +98,11 @@
 }
 
 .delete {
-  background: #dc2626;
+  background: #d78d8d;
   margin-top: 10px;
+  padding: 2px;
+  border-radius: 10px;
+  
 }
 
 @keyframes fade {

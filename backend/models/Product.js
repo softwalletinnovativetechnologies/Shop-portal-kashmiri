@@ -7,7 +7,10 @@ const productSchema = new mongoose.Schema(
     price: Number,
     stock: Number,
     category: String,
-    image: String,
+    image: {
+      type: String,
+      required: true,
+    },
   },
   { timestamps: true },
 );

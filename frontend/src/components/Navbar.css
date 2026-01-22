@@ -1,135 +1,222 @@
-/* ================= BASE ================= */
+/* ===== NAVBAR ===== */
 .navbar {
   position: sticky;
   top: 0;
-  z-index: 999;
-  background: rgba(255, 245, 235, 0.85);
-  backdrop-filter: blur(10px);
-}
-
-.navbar.scrolled {
-  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-}
-
-.nav-inner {
-  max-width: 1200px;
-  margin: auto;
-  padding: 14px 20px;
+  z-index: 1000;
+  height: 72px;
+  background: #fff3e8;
   display: flex;
   align-items: center;
   justify-content: space-between;
+  padding: 0 36px;
+  border-bottom: 1px solid #e5e7eb;
 }
 
 /* LOGO */
 .logo {
-  font-size: 24px;
-  font-weight: 700;
+  font-size: 26px;
+  font-weight: 800;
+  color: #024524;
   text-decoration: none;
-  color: #3d2b1f;
+  letter-spacing: 0.4px;
 }
-
-/* LINKS */
-.nav-links {
+/* CENTER LINKS */
+.navbar nav {
   display: flex;
   gap: 28px;
-  align-items: center;
 }
 
-.nav-links a,
-.contact-link {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 15px;
+.navbar nav a {
   text-decoration: none;
-  color: #3d2b1f;
-  position: relative;
+  font-size: 15px;
+  font-weight: 500;
+  color: #374151;
 }
 
-.nav-links a.active::after {
-  content: "";
-  position: absolute;
-  left: 0;
-  bottom: -6px;
-  width: 100%;
-  height: 2px;
-  background: #355e4c;
+.navbar nav a:hover {
+  color: #01361b;
 }
 
-/* RIGHT */
+/* RIGHT ACTIONS */
 .nav-actions {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 22px;
 }
 
-.icon {
-  font-size: 18px;
-  text-decoration: none;
-  color: #3d2b1f;
-}
-
-.login-btn {
-  padding: 8px 18px;
-  background: #355e4c;
-  color: #fff;
-  border-radius: 999px;
-  text-decoration: none;
-  font-size: 14px;
-}
-
-/* ================= HAMBURGER ================= */
-.hamburger {
-  display: none; /* desktop hidden */
-  flex-direction: column;
-  gap: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-}
-
-.hamburger span {
-  width: 24px;
-  height: 2px;
-  background: #3d2b1f;
-  display: block;
-}
-
-/* ================= MOBILE ================= */
-@media (max-width: 768px) {
-  .nav-links {
-    position: absolute;
-    top: 70px;
-    left: 0;
-    right: 0;
-    background: rgba(255,245,235,0.95);
-    backdrop-filter: blur(12px);
-    flex-direction: column;
-    padding: 20px 0;
-    gap: 20px;
-    display: none;
-  }
-
-  .nav-links.open {
-    display: flex;
-  }
-
-  .hamburger {
-    display: flex; /* 🔥 THIS WAS MISSING */
-  }
-}
+/* ICONS */
 .icon {
   position: relative;
+  font-size: 18px;
+  color: #374151;
+  text-decoration: none;
 }
 
-.badge {
+.icon span {
   position: absolute;
   top: -6px;
   right: -10px;
-  background: #e11d48;
-  color: #fff;
+  background: #00361b;
+  color: white;
   font-size: 11px;
   padding: 2px 6px;
+  border-radius: 999px;
+}
+
+/* LOGIN BUTTON */
+.login-btn {
+  background: #00391d;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 999px;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.login-btn:hover {
+  background: #574e01;
+}
+
+/* USER ICON */
+.user-menu {
+  position: relative;
+}
+
+.user-circle {
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
+  background: #004824;
+  color: white;
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* DROPDOWN */
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 52px;
+  width: 200px;
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.15);
+  display: none;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.user-menu:hover .dropdown {
+  display: flex;
+}
+
+.dropdown button {
+  background: none;
+  border: none;
+  padding: 14px 18px;
+  text-align: left;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.dropdown button:hover {
+  background: #f3f4f6;
+}
+.profile-wrapper {
+  position: relative;
+}
+
+.profile-icon {
+  width: 40px;
+  height: 40px;
+  background: #1f4d3a;
+  color: #fff;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
   font-weight: 600;
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  position: absolute;
+  right: 0;
+  top: 48px;
+  background: #fff;
+  border-radius: 14px;
+  padding: 12px;
+  min-width: 180px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.12);
+  z-index: 1000;
+}
+
+.profile-dropdown button {
+  width: 100%;
+  background: none;
+  border: none;
+  padding: 10px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.profile-dropdown button:hover {
+  background: #f3f4f6;
+}
+/* 🔍 SEARCH BAR */
+.nav-search {
+  display: flex;
+  align-items: center;
+  background: #f5f7f5;
+  border-radius: 30px;
+  padding: 4px;
+  margin: 0 12px;
+  transition: all 0.4s ease;
+  border: 1px solid #cfe3cf;
+}
+
+.nav-search.typing {
+  box-shadow: 0 0 18px rgba(15, 81, 50, 0.8);
+  transform: scale(1.02);
+}
+
+
+.nav-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 8px 14px;
+  width: 220px;
+  font-size: 14px;
+}
+
+.nav-search button {
+  background: #0f5132;
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  padding: 8px 10px;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.nav-search button:hover {
+  transform: scale(1.1);
+}
+
+/* 📱 MOBILE RESPONSIVE */
+@media (max-width: 768px) {
+  .nav-search {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  .nav-search input {
+    width: 100%;
+  }
+
+  nav {
+    display: none;
+  }
 }

@@ -10,13 +10,14 @@ export default function Navbar() {
   const [cartCount, setCartCount] = useState(0);
   const [wishlistCount, setWishlistCount] = useState(0);
   const [user, setUser] = useState(null);
-  const [open, setOpen] = useState(false);
+  const [profileOpen, setProfileOpen] = useState(false);
+  const [mobileMenu, setMobileMenu] = useState(false);
 
-  /* 🔍 SEARCH STATE */
+  /* 🔍 SEARCH */
   const [search, setSearch] = useState("");
   const [typing, setTyping] = useState(false);
 
-  /* 🔐 Sync user safely */
+  /* 🔐 Sync user */
   const syncUser = () => {
     const stored = localStorage.getItem("user");
     if (!stored) return setUser(null);
@@ -57,99 +58,127 @@ export default function Navbar() {
   const logout = () => {
     localStorage.clear();
     setUser(null);
-    setOpen(false);
-    window.dispatchEvent(new Event("userChanged"));
+    setProfileOpen(false);
+    setMobileMenu(false);
     navigate("/login");
   };
 
   const go = (path) => {
-    setOpen(false);
+    setProfileOpen(false);
+    setMobileMenu(false);
     navigate(path);
   };
 
-  /* 🔍 SEARCH SUBMIT */
   const submitSearch = (e) => {
     e.preventDefault();
     if (!search.trim()) return;
-
-    navigate(`/shop?search=${encodeURIComponent(search.trim())}`, {
-      replace: false,
-    });
+    navigate(`/shop?search=${encodeURIComponent(search.trim())}`);
+    setMobileMenu(false);
   };
 
   return (
-    <header className="navbar">
-      <NavLink to="/" className="logo">
-        Kashmiri Gifts
-      </NavLink>
-
-      <nav>
-        <NavLink to="/">Home</NavLink>
-        <NavLink to="/shop">Shop</NavLink>
-        <NavLink to="/about">About</NavLink>
-        <NavLink to="/contact">Contact</NavLink>
-      </nav>
-
-      {/* 🔍 ADVANCED SEARCH */}
-      <form
-        className={`nav-search ${typing ? "typing" : ""}`}
-        onSubmit={submitSearch}
-      >
-        <input
-          type="text"
-          placeholder="Search shawls, pashmina, dry fruits..."
-          value={search}
-          onChange={(e) => {
-            setSearch(e.target.value);
-            setTyping(true);
-            setTimeout(() => setTyping(false), 800);
-          }}
-        />
-        <button type="submit">🔍</button>
-      </form>
-
-      <div className="nav-actions">
-        <NavLink to="/wishlist" className="icon">
-          ♡ {wishlistCount > 0 && <span>{wishlistCount}</span>}
+    <>
+      <header className="navbar">
+        <NavLink to="/" className="logo">
+          Kashmiri Gifts
         </NavLink>
 
-        <NavLink to="/cart" className="icon">
-          👜 {cartCount > 0 && <span>{cartCount}</span>}
-        </NavLink>
+        {/* ===== DESKTOP NAV (auto hidden in mobile via CSS) ===== */}
+        <nav className="nav desktop-only">
+          <NavLink to="/">Home</NavLink>
+          <NavLink to="/shop">Shop</NavLink>
+          <NavLink to="/about">About</NavLink>
+          <NavLink to="/contact">Contact</NavLink>
+        </nav>
 
-        {!user ? (
-          <button onClick={() => navigate("/login")} className="login-btn">
-            Login
-          </button>
-        ) : (
-          <div className="profile-wrapper">
-            <div className="profile-icon" onClick={() => setOpen(!open)}>
-              {user.name?.charAt(0).toUpperCase()}
-            </div>
+        {/* ===== SEARCH ===== */}
+        <form
+          className={`nav-search ${typing ? "typing" : ""}`}
+          onSubmit={submitSearch}
+        >
+          <input
+            type="text"
+            placeholder="Search shawls, dry fruits, hampers..."
+            value={search}
+            onChange={(e) => {
+              setSearch(e.target.value);
+              setTyping(true);
+              setTimeout(() => setTyping(false), 600);
+            }}
+          />
+          <button type="submit">🔍</button>
+        </form>
 
-            {open && (
-              <div className="profile-dropdown">
-                {user.role === "admin" ? (
-                  <>
+        <div className="nav-actions">
+          <NavLink to="/wishlist" className="icon">
+            ♡ {wishlistCount > 0 && <span>{wishlistCount}</span>}
+          </NavLink>
+
+          <NavLink to="/cart" className="icon">
+            👜 {cartCount > 0 && <span>{cartCount}</span>}
+          </NavLink>
+
+          {/* ===== HAMBURGER (ONLY MOBILE) ===== */}
+          <div
+            className="hamburger mobile-only"
+            onClick={() => setMobileMenu(!mobileMenu)}
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+
+          {/* ===== PROFILE (unchanged) ===== */}
+          {user && (
+            <div className="profile-wrapper">
+              <div
+                className="profile-icon"
+                onClick={() => setProfileOpen(!profileOpen)}
+              >
+                {user.name?.charAt(0).toUpperCase()}
+              </div>
+
+              {profileOpen && (
+                <div className="profile-dropdown">
+                  {user.role === "admin" ? (
                     <button onClick={() => go("/admin")}>
                       Admin Dashboard
                     </button>
-                    <button onClick={logout}>Logout</button>
-                  </>
-                ) : (
-                  <>
-                    <button onClick={() => go("/account")}>My Account</button>
-                    <button onClick={() => go("/orders")}>My Orders</button>
-                    <button onClick={() => go("/wishlist")}>My Wishlist</button>
-                    <button onClick={() => go("/cart")}>My Cart</button>
-                    <button onClick={logout}>Logout</button>
-                  </>
-                )}
-              </div>
-            )}
-          </div>
-        )}
-      </div>
-    </header>
+                  ) : (
+                    <>
+                      <button onClick={() => go("/account")}>My Account</button>
+                      <button onClick={() => go("/orders")}>My Orders</button>
+                      <button onClick={() => go("/wishlist")}>
+                        My Wishlist
+                      </button>
+                      <button onClick={() => go("/cart")}>My Cart</button>
+                    </>
+                  )}
+                  <button onClick={logout}>Logout</button>
+                </div>
+              )}
+            </div>
+          )}
+        </div>
+      </header>
+
+      {/* ===== MOBILE MENU PANEL ===== */}
+      {mobileMenu && (
+        <div className="mobile-menu">
+          <NavLink to="/" onClick={() => go("/")}>
+            Home
+          </NavLink>
+          <NavLink to="/shop" onClick={() => go("/shop")}>
+            Shop
+          </NavLink>
+          <NavLink to="/about" onClick={() => go("/about")}>
+            About
+          </NavLink>
+          <NavLink to="/contact" onClick={() => go("/contact")}>
+            Contact
+          </NavLink>
+        </div>
+      )}
+    </>
   );
 }

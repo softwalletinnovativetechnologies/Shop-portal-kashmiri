@@ -217,3 +217,23 @@
   color: #666;
   font-size: 12px;
 }
+@media (max-width: 768px) {
+  .orders-wrapper,
+  .cart-page,
+  .account-page {
+    padding: 16px;
+  }
+
+  .order-card {
+    padding: 16px;
+  }
+
+  .item-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-row img {
+    margin-bottom: 10px;
+  }
+}

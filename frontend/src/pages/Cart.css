@@ -282,3 +282,34 @@
   font-size: 16px;
   font-weight: 500;
 }
+@media (max-width: 375px) {
+  .cart-row,
+  .summary-line {
+    flex-direction: column;
+  }
+
+  .qty-controls button {
+    width: 36px;
+    height: 36px;
+  }
+}
+@media (max-width: 768px) {
+  .orders-wrapper,
+  .cart-page,
+  .account-page {
+    padding: 16px;
+  }
+
+  .order-card {
+    padding: 16px;
+  }
+
+  .item-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .item-row img {
+    margin-bottom: 10px;
+  }
+}

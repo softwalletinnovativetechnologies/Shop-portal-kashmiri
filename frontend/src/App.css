@@ -59,3 +59,25 @@
   position: relative;
   z-index: 1;
 }
+@media (max-width: 375px) {
+  h1 { font-size: 20px; }
+  h2 { font-size: 17px; }
+
+  button {
+    width: 100%;
+  }
+
+  .grid,
+  .shop-grid {
+    grid-template-columns: 1fr !important;
+  }
+
+  .card {
+    margin-bottom: 16px;
+  }
+
+  .profile-dropdown {
+    right: 0;
+    left: auto;
+  }
+}

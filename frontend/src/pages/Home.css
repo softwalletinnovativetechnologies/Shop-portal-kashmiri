@@ -548,5 +548,67 @@ color: rgb(4, 43, 4);
   text-align: center;
 }
 
+/* ================= NEWSLETTER ================= */
+
+.newsletter {
+  text-align: center;
+  padding: 80px 20px;
+  background: #fff4e8;
+}
+
+.newsletter-box {
+  max-width: 420px;
+  margin: 30px auto;
+  display: flex;
+  background: #fff;
+  border-radius: 50px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0,0,0,.1);
+}
+
+.newsletter-box input {
+  flex: 1;
+  border: none;
+  padding: 16px 20px;
+  font-size: 15px;
+  outline: none;
+}
+
+.newsletter-box button {
+  background: #1f4d3a;
+  color: #fff;
+  border: none;
+  padding: 0 30px;
+  cursor: pointer;
+  font-weight: 600;
+}
+
+
+.newsletter-box button:hover {
+  background: #24483e;
+}
+
+.newsletter-box button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* 📱 MOBILE FIX */
+@media (max-width: 480px) {
+  .newsletter-box {
+    max-width: 100%;
+  }
+
+  .newsletter-box input {
+    padding-right: 115px;
+    font-size: 14px;
+  }
+
+  .newsletter-box button {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+}
+
 
 

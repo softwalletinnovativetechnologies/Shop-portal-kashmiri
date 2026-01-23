@@ -25,6 +25,9 @@ import AdminProducts from "./admin/adminProducts";
 import AdminUsers from "./admin/Users";
 import Settings from "./admin/settings";
 import AdminUserDetails from "./admin/adminUserDetails";
+import AdminSubscribers from "./admin/AdminSubscribers";
+import AdminSendNewsletter from "./admin/AdminSendNewsletter";
+import AdminNewsletterStats from "./admin/AdminNewsletterStats";
 
 export default function App() {
   return (
@@ -87,6 +90,12 @@ export default function App() {
           <Route path="products" element={<AdminProducts />} />
           <Route path="users" element={<AdminUsers />} />
           <Route path="users/:id" element={<AdminUserDetails />} />
+          <Route path="subscribers" element={<AdminSubscribers />} />
+          <Route path="/admin/newsletter" element={<AdminSendNewsletter />} />
+          <Route
+            path="/admin/newsletter/stats"
+            element={<AdminNewsletterStats />}
+          />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>

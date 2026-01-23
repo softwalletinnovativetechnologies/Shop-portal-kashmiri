@@ -9,6 +9,8 @@ export default function AdminSidebar() {
       <NavLink to="/admin/AdminOrders">Orders</NavLink>
       <NavLink to="/admin/AdminProducts">Products</NavLink>
       <NavLink to="/admin/users">Users</NavLink>
+      <NavLink to="/admin/subscribers">Subscribers</NavLink>
+      <NavLink to="/admin/newsletter">Newsletter</NavLink>
       <NavLink to="/admin/Settings">Settings</NavLink>
     </div>
   );

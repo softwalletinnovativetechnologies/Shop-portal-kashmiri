@@ -50,20 +50,29 @@ router.post("/", authMiddleware, async (req, res) => {
     });
 
     // 📄 Generate Invoice
-    const invoicePath = generateInvoice(order);
+    const invoicePath = await generateInvoice(order);
+    console.log("📄 Invoice generated:", invoicePath);
 
-    // 📧 Email (non-blocking)
-    sendEmail(
-      req.user.email,
-      "Order Placed Successfully ✅",
-      `
+    // 📧 EMAIL (non-blocking, correct way)
+    sendEmail({
+      to: req.user.email,
+      subject: "Order Placed Successfully ✅ | Kashmiri Gifts",
+      html: `
         <h2>Your order is confirmed 🎉</h2>
         <p><b>Order ID:</b> ${order._id}</p>
         <p><b>Total:</b> ₹${order.totalAmount}</p>
         <p><b>Estimated Delivery:</b> ${eta.toDateString()}</p>
+        <br/>
+        <p>Please find your invoice attached.</p>
       `,
-      invoicePath,
-    ).catch((err) => console.error("Email failed:", err.message));
+      attachments: [
+        {
+          filename: `invoice-${order._id}.pdf`,
+          path: invoicePath,
+          contentType: "application/pdf",
+        },
+      ],
+    }).catch((err) => console.error("❌ Email failed:", err.message));
 
     // 📲 WhatsApp (non-blocking)
     sendWhatsApp(
@@ -71,12 +80,12 @@ router.post("/", authMiddleware, async (req, res) => {
       `✅ Order Placed!
 Order ID: ${order._id}
 ETA: ${eta.toDateString()}`,
-    ).catch((err) => console.error("WhatsApp failed:", err.message));
+    ).catch((err) => console.error("❌ WhatsApp failed:", err.message));
 
-    // ✅ 🔥 THIS WAS MISSING (MOST IMPORTANT)
+    // ✅ RESPONSE
     return res.status(201).json(order);
   } catch (err) {
-    console.error("Order create error:", err);
+    console.error("❌ Order create error:", err);
     return res.status(500).json({ message: "Order creation failed" });
   }
 });
@@ -84,12 +93,11 @@ ETA: ${eta.toDateString()}`,
 /* ================= GET LOGGED-IN USER ORDERS ================= */
 router.get("/me", authMiddleware, async (req, res) => {
   try {
-    const orders = await Order.find({
-      user: req.user._id,
-    }).sort({ createdAt: -1 });
-
+    const orders = await Order.find({ user: req.user._id }).sort({
+      createdAt: -1,
+    });
     res.json(orders);
-  } catch (err) {
+  } catch {
     res.status(500).json({ message: "Failed to fetch orders" });
   }
 });
@@ -116,7 +124,7 @@ router.post("/razorpay", authMiddleware, async (req, res) => {
 
     res.json(razorpayOrder);
   } catch (err) {
-    console.error("Razorpay error:", err);
+    console.error("❌ Razorpay error:", err);
     res.status(500).json({ message: "Razorpay order failed" });
   }
 });

@@ -8,36 +8,35 @@ export default function Home() {
   const footerRef = useRef(null);
   const navigate = useNavigate();
 
-  const storedUser = JSON.parse(localStorage.getItem("user"));
-  const [form, setForm] = useState({
-    name: storedUser?.name || "",
-    email: storedUser?.email || "",
-    phone: storedUser?.phone || "",
-    message: "",
-  });
+  const [newsletterEmail, setNewsletterEmail] = useState("");
 
-  const submitQuery = async () => {
-    if (!form.name || !form.email || !form.message) {
-      toast.error("Please fill required fields");
+  const subscribe = async () => {
+    if (!newsletterEmail.trim()) {
+      toast.error("Please enter email");
       return;
     }
 
-    const storedUser = JSON.parse(localStorage.getItem("user"));
-
     try {
-      await fetch("http://localhost:5001/api/queries", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          ...form,
-          user: storedUser?._id || null, // 🔥 MAIN FIX
-        }),
-      });
+      const res = await fetch(
+        "http://localhost:5001/api/newsletter/subscribe",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ email: newsletterEmail }),
+        },
+      );
 
-      toast.success("Query sent successfully");
-      setForm({ name: "", email: "", phone: "", message: "" });
-    } catch {
-      toast.error("Something went wrong");
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message || "Subscription failed");
+        return;
+      }
+
+      toast.success("Subscribed successfully 🎉");
+      setNewsletterEmail("");
+    } catch (err) {
+      toast.error("Subscription failed");
     }
   };
 
@@ -205,44 +204,22 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= QUERY FORM ================= */}
-      <section className="query-section reveal">
-        <h2 className="section-title">Have Any Questions?</h2>
-        <p className="query-sub">Our team will contact you within 24 hours</p>
+      {/* ================= NEWSLETTER (REPLACED QUERY FORM) ================= */}
+      <section className="newsletter reveal">
+        <h2>Subscribe to our Newsletter</h2>
+        <p>Get latest offers & updates directly in your inbox</p>
 
-        <div className="query-card">
+        <div className="newsletter-box">
           <input
-            placeholder="Full Name"
-            value={form.name}
-            onChange={(e) => setForm({ ...form, name: e.target.value })}
+            type="email"
+            placeholder="Enter your email address"
+            value={newsletterEmail}
+            onChange={(e) => setNewsletterEmail(e.target.value)}
           />
-
-          <input
-            placeholder="Email"
-            value={form.email}
-            onChange={(e) => setForm({ ...form, email: e.target.value })}
-          />
-
-          <div className="phone-row">
-            <input value="+91" disabled />
-            <input
-              placeholder="Mobile Number"
-              value={form.phone}
-              onChange={(e) => setForm({ ...form, phone: e.target.value })}
-            />
-          </div>
-
-          <textarea
-            placeholder="Write your query..."
-            value={form.message}
-            onChange={(e) => setForm({ ...form, message: e.target.value })}
-          />
-
-          <button className="btn-primary" onClick={submitQuery}>
-            Send Query
-          </button>
+          <button onClick={subscribe}>Subscribe</button>
         </div>
       </section>
+
       {/* ================= FOOTER ================= */}
       <footer className="footer" ref={footerRef} id="contact">
         <div className="footer-container">

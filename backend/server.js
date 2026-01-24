@@ -1,5 +1,11 @@
 import dotenv from "dotenv";
-dotenv.config({ path: "./.env" });
+dotenv.config();
+
+console.log("ENV CHECK 👉", {
+  RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
+  EMAIL_USER: process.env.EMAIL_USER,
+});
+
 
 import express from "express";
 import mongoose from "mongoose";

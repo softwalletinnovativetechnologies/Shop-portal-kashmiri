@@ -1,6 +1,5 @@
 import express from "express";
 import Order from "../models/Order.js";
-import User from "../models/User.js";
 import { logAdminAction } from "../utils/logAdminAction.js";
 import { authMiddleware } from "../middleware/authMiddleware.js";
 import { adminMiddleware } from "../middleware/adminMiddleware.js";
@@ -17,7 +16,7 @@ router.get("/", authMiddleware, adminMiddleware, async (req, res) => {
 
     res.json(orders);
   } catch (err) {
-    console.error(err);
+    console.error("Fetch orders error:", err);
     res.status(500).json({ message: "Failed to fetch orders" });
   }
 });
@@ -27,10 +26,11 @@ router.put("/:id/status", authMiddleware, adminMiddleware, async (req, res) => {
   try {
     const { status } = req.body;
 
-    /* 🔐 VALID STATUS CHECK */
+    console.log("ADMIN STATUS UPDATE:", req.params.id, status);
+
     const allowedStatus = [
       "PLACED",
-      "PROCESSING",
+      "CONFIRMED",
       "SHIPPED",
       "OUT_FOR_DELIVERY",
       "DELIVERED",
@@ -50,14 +50,13 @@ router.put("/:id/status", authMiddleware, adminMiddleware, async (req, res) => {
       return res.status(404).json({ message: "Order not found" });
     }
 
-    /* 🛑 PREVENT DUPLICATE STATUS */
-    if (order.orderStatus === status) {
-      return res.json(order);
-    }
-
     /* ✅ UPDATE ORDER */
     order.orderStatus = status;
-    order.statusHistory.push({ status, time: new Date() });
+    order.statusHistory.push({
+      status,
+      time: new Date(),
+    });
+
     await order.save();
 
     /* 📝 AUDIT LOG (NON-BLOCKING) */
@@ -69,19 +68,21 @@ router.put("/:id/status", authMiddleware, adminMiddleware, async (req, res) => {
     }).catch((err) => console.error("Audit log failed:", err.message));
 
     /* 📧 EMAIL USER (NON-BLOCKING) */
-    sendEmail(
-      order.user.email,
-      `Order Update: ${status}`,
-      `
-        <h2>Order Status Updated</h2>
+    await sendEmail({
+      to: order.user.email,
+      subject: `Order Update: ${status}`,
+      html: `
+        <h2>Order Status Updated 🚚</h2>
         <p><b>Order ID:</b> ${order._id}</p>
-        <p>Your order is now <b>${status}</b></p>
+        <p>Your order status is now:</p>
+        <h3>${status.replaceAll("_", " ")}</h3>
       `,
-    ).catch((err) => console.error("Order email failed:", err.message));
+    }).catch((err) => console.error("Order email failed:", err.message));
 
+    /* ✅ SEND UPDATED ORDER BACK */
     res.json(order);
   } catch (err) {
-    console.error(err);
+    console.error("Order status update error:", err);
     res.status(500).json({ message: "Failed to update order status" });
   }
 });

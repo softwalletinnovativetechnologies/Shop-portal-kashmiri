@@ -37,9 +37,12 @@ export default function AdminOrders() {
   if (loading) return <p className="loading">Loading Orders...</p>;
 
   const updateStatus = async (id, status) => {
-    await fetch(`http://localhost:5001/api/admin/orders/${id}/status`, {
+    await fetch(`http://localhost:5001/api/admin/orders/${orderId}/status`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer ${token}",
+      },
       body: JSON.stringify({ status }),
     });
 
@@ -62,14 +65,44 @@ export default function AdminOrders() {
 
             <select
               value={order.orderStatus}
-              onChange={(e) => updateStatus(order._id, e.target.value)}
+              onChange={async (e) => {
+                const newStatus = e.target.value;
+
+                try {
+                  const token = localStorage.getItem("token");
+
+                  const res = await fetch(
+                    `http://localhost:5001/api/admin/orders/${order._id}/status`,
+                    {
+                      method: "PUT",
+                      headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`,
+                      },
+                      body: JSON.stringify({ status: newStatus }),
+                    },
+                  );
+
+                  if (!res.ok) throw new Error("Update failed");
+
+                  const updatedOrder = await res.json();
+
+                  // 🔥 UI UPDATE (VERY IMPORTANT)
+                  setOrders((prev) =>
+                    prev.map((o) =>
+                      o._id === updatedOrder._id ? updatedOrder : o,
+                    ),
+                  );
+                } catch (err) {
+                  alert("Failed to update order status");
+                }
+              }}
             >
-              <option>PLACED</option>
-              <option>CONFIRMED</option>
-              <option>SHIPPED</option>
-              <option>OUT_FOR_DELIVERY</option>
-              <option>DELIVERED</option>
-              <option>CANCELLED</option>
+              <option value="PLACED">PLACED</option>
+              <option value="PROCESSING">PROCESSING</option>
+              <option value="SHIPPED">SHIPPED</option>
+              <option value="OUT_FOR_DELIVERY">OUT FOR DELIVERY</option>
+              <option value="DELIVERED">DELIVERED</option>
             </select>
           </div>
 

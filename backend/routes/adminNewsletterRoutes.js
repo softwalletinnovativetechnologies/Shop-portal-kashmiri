@@ -2,6 +2,7 @@ import express from "express";
 import Newsletter from "../models/Newsletter.js";
 import { adminMiddleware } from "../middleware/adminMiddleware.js";
 import { sendEmail } from "../utils/sendEmail.js";
+import Subscriber from "../models/Subscriber.js";
 const router = express.Router();
 
 /* ================= GET ALL SUBSCRIBERS ================= */
@@ -32,21 +33,20 @@ router.put("/:id/unsubscribe", adminMiddleware, async (req, res) => {
 });
 
 /* ================= SEND NEWSLETTER ================= */
-router.post("/send", adminMiddleware, async (req, res) => {
+router.post("/send", async (req, res) => {
   try {
-    const { subject, content } = req.body;
+    const { subject, html } = req.body;
 
-    if (!subject || !content) {
-      return res.status(400).json({ message: "Subject & content required" });
+    const subscribers = await Subscriber.find({ status: "ACTIVE" });
+    if (subscribers.length === 0) {
+      return res.status(400).json({ message: "No subscribers found" });
     }
 
-    const subscribers = await Newsletter.find({ status: "ACTIVE" });
-
     for (const sub of subscribers) {
-      await sendEmail(
-        sub.email,
+      await sendEmail({
+        to: sub.email,
         subject,
-        `
+        html: `
           <h2>Kashmiri Gifts Newsletter</h2>
           <p>${content}</p>
           <hr />
@@ -54,12 +54,11 @@ router.post("/send", adminMiddleware, async (req, res) => {
             You are receiving this email because you subscribed to Kashmiri Gifts.
           </p>
         `,
-      );
+      });
     }
 
     res.json({
-      success: true,
-      sentTo: subscribers.length,
+      message: "Newsletter sent to all subscribers",
     });
   } catch (err) {
     console.error("Newsletter send failed:", err);

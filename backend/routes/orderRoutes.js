@@ -17,9 +17,8 @@ router.post("/", authMiddleware, async (req, res) => {
       return res.status(400).json({ message: "No order items" });
     }
 
-    // 🔒 SERVER SIDE TOTAL
     const totalAmount = items.reduce((sum, item) => {
-      const price = Number(item.price) || Number(item.product?.price) || 0;
+      const price = Number(item.price) || 0;
       const qty = Number(item.quantity) || 1;
       return sum + price * qty;
     }, 0);
@@ -28,18 +27,12 @@ router.post("/", authMiddleware, async (req, res) => {
       return res.status(400).json({ message: "Invalid order amount" });
     }
 
-    // 🚚 Delivery ETA
     const eta = new Date();
     eta.setDate(eta.getDate() + 5);
 
     const order = await Order.create({
       user: req.user._id,
-      items: items.map((item) => ({
-        name: item.name || item.product?.name,
-        image: item.image || item.product?.image,
-        price: Number(item.price) || Number(item.product?.price),
-        quantity: item.quantity || 1,
-      })),
+      items,
       address,
       totalAmount,
       paymentMethod,
@@ -49,43 +42,35 @@ router.post("/", authMiddleware, async (req, res) => {
       statusHistory: [{ status: "PLACED", time: new Date() }],
     });
 
-    // 📄 Generate Invoice
-    const invoicePath = await generateInvoice(order);
-    console.log("📄 Invoice generated:", invoicePath);
+    const invoicePath = generateInvoice(order);
 
-    // 📧 EMAIL (non-blocking, correct way)
-    sendEmail({
+    // 📧 EMAIL (NON BLOCKING)
+    await sendEmail({
       to: req.user.email,
-      subject: "Order Placed Successfully ✅ | Kashmiri Gifts",
+      subject: "Order Placed Successfully ✅",
       html: `
         <h2>Your order is confirmed 🎉</h2>
         <p><b>Order ID:</b> ${order._id}</p>
         <p><b>Total:</b> ₹${order.totalAmount}</p>
         <p><b>Estimated Delivery:</b> ${eta.toDateString()}</p>
-        <br/>
-        <p>Please find your invoice attached.</p>
       `,
       attachments: [
         {
           filename: `invoice-${order._id}.pdf`,
           path: invoicePath,
-          contentType: "application/pdf",
         },
       ],
-    }).catch((err) => console.error("❌ Email failed:", err.message));
+    });
 
-    // 📲 WhatsApp (non-blocking)
-    sendWhatsApp(
-      order.address.phone,
-      `✅ Order Placed!
-Order ID: ${order._id}
-ETA: ${eta.toDateString()}`,
-    ).catch((err) => console.error("❌ WhatsApp failed:", err.message));
+    // 📲 WhatsApp (OPTIONAL – NON BLOCKING)
+    sendWhatsApp?.(
+      order.address?.phone,
+      `Order Placed ✅\nOrder ID: ${order._id}`,
+    );
 
-    // ✅ RESPONSE
     return res.status(201).json(order);
   } catch (err) {
-    console.error("❌ Order create error:", err);
+    console.error("Order create error:", err);
     return res.status(500).json({ message: "Order creation failed" });
   }
 });

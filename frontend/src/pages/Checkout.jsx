@@ -44,6 +44,11 @@ export default function Checkout() {
   const [loading, setLoading] = useState(false);
   const [showForm, setShowForm] = useState(false);
 
+  const [couponCode, setCouponCode] = useState("");
+  const [discount, setDiscount] = useState(0);
+  const [appliedCoupon, setAppliedCoupon] = useState(null);
+  const [availableCoupons, setAvailableCoupons] = useState([]);
+
   const [newAddress, setNewAddress] = useState({
     name: "",
     phone: "",
@@ -65,28 +70,63 @@ export default function Checkout() {
     setCart(safeCart);
   }, []);
 
-  useEffect(() => {
-    fetch("https://ipapi.co/json/")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data?.country_calling_code) {
-          setNewAddress((prev) => ({
-            ...prev,
-            countryCode: data.country_calling_code,
-          }));
-        }
-      })
-      .catch(() => {
-        // fallback India
-        setNewAddress((prev) => ({ ...prev, countryCode: "+91" }));
-      });
-  }, []);
-
   /* ================= SAFE TOTAL ================= */
   const subtotal = cart.reduce(
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
+  useEffect(() => {
+    fetch("http://localhost:5001/api/coupons/available")
+      .then((res) => res.json())
+      .then((data) => {
+        if (Array.isArray(data)) {
+          setAvailableCoupons(data);
+        } else {
+          setAvailableCoupons([]);
+        }
+      })
+      .catch(() => setAvailableCoupons([]));
+  }, [token]);
+
+  const safeDiscount = Math.min(discount, subtotal);
+  const finalAmount = Math.max(subtotal - safeDiscount, 0);
+  /* ================= APPLY COUPON ================= */
+  const applyCoupon = async () => {
+    if (!couponCode.trim()) {
+      toast.error("Enter coupon code");
+      return;
+    }
+
+    try {
+      const categories = cart.map((i) => i.category);
+
+      const res = await fetch("http://localhost:5001/api/coupons/apply", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({
+          code: couponCode,
+          cartTotal: subtotal,
+          categories,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        toast.error(data.message);
+        return;
+      }
+      const calculatedDiscount = Math.min(Number(data.discount || 0), subtotal);
+      setDiscount(calculatedDiscount);
+      setAppliedCoupon(couponCode.toUpperCase());
+      toast.success(`Coupon ${couponCode.toUpperCase()} applied 🎉`);
+    } catch {
+      toast.error("Coupon failed");
+    }
+  };
 
   /* ================= LOAD ADDRESSES ================= */
   useEffect(() => {
@@ -109,16 +149,22 @@ export default function Checkout() {
     setCart(updated);
     localStorage.setItem("cart", JSON.stringify(updated));
   };
-
-  /* ================= LOAD RAZORPAY ================= */
-  const loadRazorpay = () =>
-    new Promise((resolve) => {
-      const script = document.createElement("script");
-      script.src = "https://checkout.razorpay.com/v1/checkout.js";
-      script.onload = () => resolve(true);
-      script.onerror = () => resolve(false);
-      document.body.appendChild(script);
-    });
+  useEffect(() => {
+    fetch("https://ipapi.co/json/")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data?.country_calling_code) {
+          setNewAddress((prev) => ({
+            ...prev,
+            countryCode: data.country_calling_code,
+          }));
+        }
+      })
+      .catch(() => {
+        // fallback India
+        setNewAddress((prev) => ({ ...prev, countryCode: "+91" }));
+      });
+  }, []);
 
   /* ================= SAVE ORDER ================= */
   const finalizeOrder = async (method, status) => {
@@ -134,6 +180,8 @@ export default function Checkout() {
         address: selectedAddress,
         paymentMethod: method,
         paymentStatus: status,
+        coupon: appliedCoupon,
+        discount: safeDiscount,
       }),
     });
     setLoading(false);
@@ -148,6 +196,16 @@ export default function Checkout() {
     const data = await res.json();
     window.location.href = `/order-success/${data._id}`;
   };
+
+  /* ================= LOAD RAZORPAY ================= */
+  const loadRazorpay = () =>
+    new Promise((resolve) => {
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.onload = () => resolve(true);
+      script.onerror = () => resolve(false);
+      document.body.appendChild(script);
+    });
 
   /* ================= ADD ADDRESS ================= */
   const addNewAddress = async () => {
@@ -192,7 +250,7 @@ export default function Checkout() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ amount: subtotal * 100 }),
+        body: JSON.stringify({ amount: finalAmount * 100 }),
       });
 
       const order = await res.json();
@@ -335,13 +393,57 @@ export default function Checkout() {
               onClick={placeOrder}
               disabled={loading}
             >
-              {loading ? "Processing..." : `Pay ₹${subtotal}`}
+              {loading ? "Processing..." : `Pay ₹${finalAmount}`}
             </button>
           </div>
         </div>
 
         {/* RIGHT */}
         <aside className="order-summary">
+          <h2>Apply Coupon</h2>
+          {/* AVAILABLE COUPONS LIST */}
+          {availableCoupons.length > 0 && (
+            <div className="available-coupons">
+              <h3>Available Coupons</h3>
+
+              {availableCoupons.map((c) => (
+                <div key={c._id} className="coupon-item">
+                  <div>
+                    <strong>{c.code}</strong>
+                    <p>
+                      {c.type === "PERCENT"
+                        ? `${c.value}% off`
+                        : `₹${c.value} off`}
+                      {" • "}
+                      Min order ₹{c.minOrderAmount}
+                    </p>
+                    <small>
+                      Valid till {new Date(c.expiry).toLocaleDateString()}
+                    </small>
+                  </div>
+
+                  <button
+                    className="apply-coupon-btn"
+                    onClick={() => {
+                      setCouponCode(c.code);
+                      applyCoupon(c.code);
+                    }}
+                  >
+                    Apply
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="coupon-box">
+            <input
+              placeholder="Enter coupon code"
+              value={couponCode}
+              onChange={(e) => setCouponCode(e.target.value.toUpperCase())}
+            />
+            <button onClick={applyCoupon}>Apply</button>
+          </div>
           <h2>Order Summary</h2>
 
           {cart.map((item, i) => (
@@ -357,10 +459,21 @@ export default function Checkout() {
               <span>₹{item.price * item.quantity}</span>
             </div>
           ))}
+          <div className="summary-line">
+            <span>Subtotal</span>
+            <span>₹{subtotal}</span>
+          </div>
+
+          {safeDiscount > 0 && (
+            <div className="summary-line discount">
+              <span>Coupon Discount</span>
+              <span>- ₹{safeDiscount}</span>
+            </div>
+          )}
 
           <div className="summary-total">
-            <span>Total</span>
-            <span>₹{subtotal}</span>
+            <span>Total Payable</span>
+            <span>₹{finalAmount}</span>
           </div>
         </aside>
       </div>

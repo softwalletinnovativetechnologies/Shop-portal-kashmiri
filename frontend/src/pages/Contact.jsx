@@ -4,11 +4,12 @@ import "./Contact.css";
 
 export default function Contact() {
   const token = localStorage.getItem("token");
-
+ 
   const [name, setName] = useState("");
   const [emailAddress, setEmailAddress] = useState("");
   const [query, setQuery] = useState("");
   const [loading, setLoading] = useState(false);
+
 
   const submit = async (e) => {
     e.preventDefault();
@@ -111,6 +112,7 @@ export default function Contact() {
             loading="lazy"
           ></iframe>
         </div>
+       
       </div>
     </div>
   );

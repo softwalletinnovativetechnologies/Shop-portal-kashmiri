@@ -28,7 +28,7 @@ import AdminUserDetails from "./admin/adminUserDetails";
 import AdminSubscribers from "./admin/AdminSubscribers";
 import AdminSendNewsletter from "./admin/AdminSendNewsletter";
 import AdminNewsletterStats from "./admin/AdminNewsletterStats";
-
+import AdminCoupons from "./admin/AdminCoupons";
 export default function App() {
   return (
     <BrowserRouter>
@@ -96,6 +96,7 @@ export default function App() {
             path="/admin/newsletter/stats"
             element={<AdminNewsletterStats />}
           />
+          <Route path="/admin/coupons" element={<AdminCoupons />} />
           <Route path="settings" element={<Settings />} />
         </Route>
       </Routes>

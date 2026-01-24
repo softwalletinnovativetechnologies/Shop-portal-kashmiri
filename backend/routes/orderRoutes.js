@@ -92,6 +92,10 @@ router.post("/razorpay", authMiddleware, async (req, res) => {
   try {
     const { amount } = req.body;
 
+    if (!amount || amount <= 0) {
+      return res.status(400).json({ message: "Invalid amount" });
+    }
+
     if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
       return res.status(500).json({ message: "Razorpay keys missing" });
     }
@@ -102,7 +106,7 @@ router.post("/razorpay", authMiddleware, async (req, res) => {
     });
 
     const razorpayOrder = await razorpay.orders.create({
-      amount: Number(amount),
+      amount: amount,
       currency: "INR",
       receipt: "order_" + Date.now(),
     });

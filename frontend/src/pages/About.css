@@ -227,3 +227,93 @@
 .subscribe-box input:focus {
   outline: none;
 }
+/* ================= FOOTER ================= */
+
+.footer {
+  width: 100%;
+  background: linear-gradient(
+    to top,
+    rgba(62, 92, 75, 0.55),
+    rgba(62, 92, 75, 0.45)
+  );
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  padding: 26px 8% 14px;   /* 🔥 height kam */
+  color: #f7efe8;
+}
+
+/* CONTAINER */
+.footer-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: auto;
+}
+
+/* LINKS */
+.footer-links,
+.footer-right {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+}
+
+.footer a {
+  color: #f7efe8;
+  text-decoration: none;
+  font-size: 14px;
+  opacity: 0.9;
+}
+
+.footer a:hover {
+  opacity: 1;
+}
+
+/* LOGO */
+/* LOGO FIX */
+.footer-logo {
+  flex: 1.4;                 
+  display: flex;
+  justify-content: center;
+}
+
+.footer-logo img {
+  height: 60px;              
+  max-width: 500px;         
+  width: 100%;
+  object-fit: contain;
+}
+.footer-links {
+  flex: 1;
+}
+
+.footer-right {
+  flex: 1;
+  justify-content: flex-end;
+}
+
+/* SOCIAL ICONS */
+.footer-socials {
+  display: flex;
+  gap: 14px;
+}
+
+.footer-socials i {
+  font-size: 18px;
+  color: #f7efe8;
+  transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+.footer-socials i:hover {
+  transform: scale(1.15);
+  opacity: 1;
+}
+
+/* COPYRIGHT */
+.footer-copy {
+  margin-top: 14px;
+  text-align: center;
+  font-size: 12px;
+  opacity: 0.85;
+}

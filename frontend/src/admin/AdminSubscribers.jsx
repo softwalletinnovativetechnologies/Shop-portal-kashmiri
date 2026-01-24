@@ -7,7 +7,7 @@ export default function AdminSubscribers() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/admin/newsletter", {
+    fetch("http://localhost:5001/api/admin/subscribers", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -19,7 +19,7 @@ export default function AdminSubscribers() {
 
   const unsubscribe = async (id) => {
     await fetch(
-      `http://localhost:5001/api/admin/newsletter/${id}/unsubscribe`,
+      `http://localhost:5001/api/admin/subscribers/${id}/unsubscribe`,
       {
         method: "PUT",
         headers: {

@@ -8,21 +8,23 @@ export default function Home() {
   const footerRef = useRef(null);
   const navigate = useNavigate();
 
-  const [newsletterEmail, setNewsletterEmail] = useState("");
+  const [email, setEmail] = useState("");
 
   const subscribe = async () => {
-    if (!newsletterEmail.trim()) {
+    if (!email) {
       toast.error("Please enter email");
       return;
     }
 
     try {
       const res = await fetch(
-        "http://localhost:5001/api/newsletter/subscribe",
+        "http://localhost:5001/api/subscribers/subscribe",
         {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: newsletterEmail }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email }),
         },
       );
 
@@ -34,7 +36,7 @@ export default function Home() {
       }
 
       toast.success("Subscribed successfully 🎉");
-      setNewsletterEmail("");
+      setEmail("");
     } catch (err) {
       toast.error("Subscription failed");
     }
@@ -213,8 +215,8 @@ export default function Home() {
           <input
             type="email"
             placeholder="Enter your email address"
-            value={newsletterEmail}
-            onChange={(e) => setNewsletterEmail(e.target.value)}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
           <button onClick={subscribe}>Subscribe</button>
         </div>

@@ -8,7 +8,7 @@ export default function AdminSendNewsletter() {
   const token = localStorage.getItem("token");
 
   const send = async () => {
-    if (!subject || !content) {
+    if (!subject.trim() || !content.trim()) {
       toast.error("Fill all fields");
       return;
     }
@@ -19,7 +19,14 @@ export default function AdminSendNewsletter() {
         "Content-Type": "application/json",
         Authorization: `Bearer ${token}`,
       },
-      body: JSON.stringify({ subject, content }),
+      body: JSON.stringify({
+        subject: subject.trim(),
+        content: `
+            <div style="font-family:Arial,sans-serif;line-height:1.6">
+              ${content.replace(/\n/g, "<br/>")}
+            </div>
+          `,
+      }),
     });
 
     if (!res.ok) {

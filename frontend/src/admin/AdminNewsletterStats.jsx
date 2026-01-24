@@ -6,7 +6,7 @@ export default function AdminNewsletterStats() {
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    fetch("http://localhost:5001/api/admin/newsletter/stats", {
+    fetch("http://localhost:5001/api/admin/subscriber/stats", {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then((r) => r.json())

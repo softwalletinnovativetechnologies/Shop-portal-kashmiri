@@ -1,5 +1,9 @@
+import express from "express";
 import Subscriber from "../models/Subscriber.js";
 
+const router = express.Router();
+
+/* ===== SUBSCRIBE ===== */
 router.post("/subscribe", async (req, res) => {
   try {
     const { email } = req.body;
@@ -14,7 +18,10 @@ router.post("/subscribe", async (req, res) => {
       return res.json({ message: "Already subscribed" });
     }
 
-    await Subscriber.create({ email });
+    await Subscriber.create({
+      email,
+      status: "ACTIVE",
+    });
 
     res.json({ message: "Subscribed successfully" });
   } catch (err) {
@@ -22,3 +29,5 @@ router.post("/subscribe", async (req, res) => {
     res.status(500).json({ message: "Subscription failed" });
   }
 });
+
+export default router;

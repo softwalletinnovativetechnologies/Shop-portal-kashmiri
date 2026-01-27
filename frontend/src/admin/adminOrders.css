@@ -84,3 +84,23 @@ select {
 .loading {
   padding: 40px;
 }
+@media (max-width: 768px) {
+  .order-list {
+    padding: 10px;
+  }
+
+  .order-card {
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+@media (max-width: 768px) {
+  .admin-table-wrapper {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px;
+  }
+}

@@ -525,3 +525,78 @@
   opacity: 0.9;
 }
 
+/* ================= CHECKOUT RESPONSIVE ================= */
+
+.checkout-page {
+  padding: 16px;
+}
+
+.checkout-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.checkout-card,
+.order-summary {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* ---------- TABLET ---------- */
+@media (max-width: 900px) {
+  .checkout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-summary {
+    margin-top: 20px;
+  }
+}
+
+/* ---------- MOBILE ---------- */
+@media (max-width: 480px) {
+  .checkout-title {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .checkout-card h2,
+  .order-summary h2 {
+    font-size: 18px;
+  }
+
+  .address-tile {
+    padding: 12px;
+  }
+
+  .coupon-box {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .coupon-box input,
+  .coupon-box button {
+    width: 100%;
+  }
+
+  .summary-line {
+    display: flex;
+    justify-content: space-between;
+    gap: 10px;
+    font-size: 14px;
+  }
+
+  .qty-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .place-order {
+    width: 100%;
+    font-size: 16px;
+    padding: 14px;
+  }
+}

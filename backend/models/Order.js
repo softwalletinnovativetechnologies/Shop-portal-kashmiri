@@ -5,7 +5,7 @@ const orderSchema = new mongoose.Schema(
     user: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
     items: Array,
     address: Object,
-    totalAmount: { type: Number, required: true },
+    totalAmount: Number,
     paymentMethod: { type: String, enum: ["COD", "ONLINE"], required: true },
     paymentStatus: {
       type: String,
@@ -33,8 +33,8 @@ const orderSchema = new mongoose.Schema(
       },
     ],
     deliveryETA: {
-  type: Date,
-},
+      type: Date,
+    },
   },
   { timestamps: true },
 );

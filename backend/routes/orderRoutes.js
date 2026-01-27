@@ -8,6 +8,12 @@ import { sendEmail } from "../utils/sendEmail.js";
 
 const router = express.Router();
 
+console.log("KEY_ID:", process.env.RAZORPAY_KEY_ID);
+console.log(
+  "KEY_SECRET:",
+  process.env.RAZORPAY_KEY_SECRET ? "LOADED" : "MISSING",
+);
+
 /* ================= CREATE ORDER ================= */
 router.post("/", authMiddleware, async (req, res) => {
   try {
@@ -92,26 +98,18 @@ router.post("/razorpay", authMiddleware, async (req, res) => {
   try {
     const { amount } = req.body;
 
-    if (!amount || amount <= 0) {
-      return res.status(400).json({ message: "Invalid amount" });
-    }
-
-    if (!process.env.RAZORPAY_KEY_ID || !process.env.RAZORPAY_KEY_SECRET) {
-      return res.status(500).json({ message: "Razorpay keys missing" });
-    }
-
     const razorpay = new Razorpay({
       key_id: process.env.RAZORPAY_KEY_ID,
       key_secret: process.env.RAZORPAY_KEY_SECRET,
     });
 
-    const razorpayOrder = await razorpay.orders.create({
-      amount: amount,
+    const order = await razorpay.orders.create({
+      amount: Math.round(Number(amount) * 100), // ✅ VERY IMPORTANT
       currency: "INR",
       receipt: "order_" + Date.now(),
     });
 
-    res.json(razorpayOrder);
+    res.json(order);
   } catch (err) {
     console.error("❌ Razorpay error:", err);
     res.status(500).json({ message: "Razorpay order failed" });

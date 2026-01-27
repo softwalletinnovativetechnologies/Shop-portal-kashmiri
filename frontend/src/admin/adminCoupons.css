@@ -23,3 +23,8 @@
   border-radius: 10px;
   background: #f8f8f8;
 }
+@media (max-width: 768px) {
+  .coupon-card {
+    width: 100%;
+  }
+}

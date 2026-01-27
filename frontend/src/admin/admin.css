@@ -85,3 +85,37 @@ body {
   font-size: 26px;
   color: #1f4d3a;
 }
+/* ================= MOBILE RESPONSIVE ================= */
+/* ================= ADMIN ROOT FIX ================= */
+.admin-layout {
+  max-width: 100vw;
+  overflow-x: hidden;
+}
+
+/* ================= MOBILE FIX ================= */
+@media (max-width: 768px) {
+  .admin-layout {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .admin-sidebar {
+    width: 100% !important;
+    max-width: 100%;
+    position: relative;
+  }
+
+  .admin-content {
+    width: 100%;
+    max-width: 100%;
+    padding: 12px;
+    overflow-x: hidden;
+  }
+}
+
+/* Extra safety for very small screens */
+@media (max-width: 420px) {
+  body {
+    overflow-x: hidden;
+  }
+}

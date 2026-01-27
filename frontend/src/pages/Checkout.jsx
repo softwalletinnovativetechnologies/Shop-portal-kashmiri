@@ -75,6 +75,9 @@ export default function Checkout() {
     (sum, item) => sum + item.price * item.quantity,
     0,
   );
+
+  const safeDiscount = Math.min(discount, subtotal);
+  const finalAmount = Math.max(subtotal - safeDiscount, 0);
   useEffect(() => {
     fetch("http://localhost:5001/api/coupons/available")
       .then((res) => res.json())
@@ -88,8 +91,6 @@ export default function Checkout() {
       .catch(() => setAvailableCoupons([]));
   }, [token]);
 
-  const safeDiscount = Math.min(discount, subtotal);
-  const finalAmount = Math.max(subtotal - safeDiscount, 0);
   /* ================= APPLY COUPON ================= */
   const applyCoupon = async () => {
     if (!couponCode.trim()) {
@@ -182,6 +183,7 @@ export default function Checkout() {
         paymentStatus: status,
         coupon: appliedCoupon,
         discount: safeDiscount,
+        totalAmount: finalAmount,
       }),
     });
     setLoading(false);
@@ -236,13 +238,11 @@ export default function Checkout() {
 
   /* ================= PLACE ORDER ================= */
   const placeOrder = async () => {
-    if (!selectedAddress) return toast.error("Select delivery address");
-    if (!cart.length) return toast.error("Cart is empty");
+    if (!selectedAddress) return toast.error("Select address");
+    if (!cart.length) return toast.error("Cart empty");
 
-    // ONLINE PAYMENT
     if (payment === "ONLINE") {
-      const loaded = await loadRazorpay();
-      if (!loaded) return toast.error("Razorpay SDK failed");
+      if (!(await loadRazorpay())) return toast.error("Razorpay SDK failed");
 
       const res = await fetch("http://localhost:5001/api/orders/razorpay", {
         method: "POST",
@@ -250,25 +250,47 @@ export default function Checkout() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify({ amount: finalAmount * 100 }),
+        body: JSON.stringify({ amount: finalAmount }),
       });
-
       const order = await res.json();
 
+      if (!order?.id) {
+        toast.error("Unable to create Razorpay order");
+        return;
+      }
       const options = {
         key: import.meta.env.VITE_RAZORPAY_KEY_ID,
         amount: order.amount,
         currency: "INR",
         order_id: order.id,
         name: "Kashmiri Gifts",
-        handler: () => finalizeOrder("ONLINE", "PAID"),
+        description: "Order Payment",
+        handler: function (response) {
+          console.log("Payment successful:", response);
+          // ✅ PAYMENT SUCCESS
+          finalizeOrder("ONLINE", "PAID");
+        },
+
+        modal: {
+          ondismiss: function () {
+            toast("Payment cancelled");
+          },
+        },
       };
 
-      new window.Razorpay(options).open();
+      const rzp = new window.Razorpay(options);
+
+      rzp.on("payment.failed", function (response) {
+        console.error("Payment failed:", response.error);
+        toast.error(
+          response.error.description || "Payment failed, please try again",
+        );
+      });
+
+      rzp.open();
       return;
     }
 
-    // COD
     finalizeOrder("COD", "PENDING");
   };
 

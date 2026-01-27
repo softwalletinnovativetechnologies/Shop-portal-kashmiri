@@ -3,7 +3,7 @@ dotenv.config();
 
 console.log("ENV CHECK 👉", {
   RAZORPAY_KEY_ID: process.env.RAZORPAY_KEY_ID,
-  EMAIL_USER: process.env.EMAIL_USER,
+  RAZORPAY_KEY_SECRET: process.env.RAZORPAY_KEY_SECRET ? "OK" : "MISSING",
 });
 
 import express from "express";

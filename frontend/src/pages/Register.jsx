@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-hot-toast";
-import "./Auth.css";
+import "./auth.css";
 
 export default function Register() {
   const navigate = useNavigate();
